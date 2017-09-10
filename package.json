@@ -1,0 +1,31 @@
+{
+  "name": "TTL_Encrypted_Privacy_Rooms",
+  "version": "0.0.0",
+  "private": true,
+  "main": "app.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Aditya Pandey",
+  "license": "ISC",
+  "dependencies": {
+    "bcryptjs": "^2.4.3",
+    "body-parser": "^1.17.2",
+    "connect-busboy": "0.0.2",
+    "connect-flash": "^0.1.1",
+    "connect-multiparty": "^2.0.0",
+    "cookie-parser": "^1.4.3",
+    "express": "^4.15.3",
+    "express-fileupload": "^0.2.0",
+    "express-handlebars": "^3.0.0",
+    "express-messages": "^1.0.1",
+    "express-session": "^1.15.5",
+    "express-validator": "^3.2.1",
+    "express-validators": "^1.0.4",
+    "mongodb": "^2.2.30",
+    "mongoose": "^4.11.4",
+    "passport": "^0.3.2",
+    "passport-http": "^0.3.0",
+    "passport-local": "^1.0.0"
+  }
+}
