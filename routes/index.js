@@ -16,4 +16,8 @@ function ensureAuthentication(req,res, next) {
     }
 }
 
+// res.post('/twoButtons', function (req,res) {
+//
+// });
+
 module.exports = router;
