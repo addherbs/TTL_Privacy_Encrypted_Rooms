@@ -11,7 +11,7 @@ var mongoose = require('mongoose');
 var bodyParser = require('body-parser');
 var path = require('path');
 
-mongoose.connect('mongodb://localhost/TTL');
+mongoose.connect('mongodb://localhost/loginapp');
 var db = mongoose.connection;
 
 //Routes
