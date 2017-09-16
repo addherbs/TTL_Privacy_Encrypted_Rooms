@@ -1,0 +1,36 @@
+<h2 class="page-header">    Account Login   </h2>
+
+{{#if errors}}
+    {{#each errors}}
+        <div class="alert alert-danger">{{msg}}</div>
+    {{/each}}
+{{/if}}
+
+
+<form method="post" action="/users/createPortal">
+
+    <div class="form-group">
+        <label> Portal Name: </label>
+        <input type="text" class="form-control" name="pName" placeholder="Portal Name">
+    </div>
+
+    <div class="form-group">
+        <label> Portal Password: </label>
+        <input type="password" class="form-control" name="pPassword" placeholder="Portal Password">
+    </div>
+
+    <div class="form-group">
+        <label> Expire Date(Time-To-Live): </label>
+        <input type="text" class="form-control" name="hours" placeholder="Enter Number Of Hours">
+        <input type="text" class="form-control" name="mins" placeholder="Enter Minutes">
+        <input type="text" class="form-control" name="secs" placeholder="Enter Seconds">
+    </div>
+
+    <div class="form-group">
+        <label> Message for the User: </label>
+        <input type="text" class="form-control" name="message" placeholder="Enter the message">
+    </div>
+
+    <button type="submit" class="btn btn-default"> Submit </button>
+
+</form>
