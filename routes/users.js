@@ -59,20 +59,20 @@ router.post('/createPortal', function (req,res) {
             errors:errors
         });
     }else{
-        var newPortal = new User({
-            FirstName: name,
-            UserName: username,
-            EmailID: email,
-            Password: password
+        var newPortal = new Portal({
+            PortalName: pName,
+            PortalPassword: pPassword,
+            TTL: ttl,
+            Message: message
         });
 
-        //
-        // User.createUser(newPortal, function(err, user){
-        //     if (err) throw err;
-        //     console.log(user);
-        // });
 
-        req.flash('success_msg', 'You are now registered.. Login to continue');
+        Portal.createPortal(newPortal, function(err, portal){
+            if (err) throw err;
+            console.log(portal);
+        });
+
+        req.flash('success_msg', 'You have successfully created a portal.. Inform your friend to check');
 
         res.redirect('/users/login');
     }
