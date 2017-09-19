@@ -60,13 +60,6 @@ router.post('/createPortal', function (req,res) {
         Message: message
     };
 
-    console.log(
-        "This is the 1 portal\n",
-        portalData,
-        "This main 1 ends",
-        "-----------------------"
-    );
-
     var errors= req.validationErrors();
     if(errors){
         res.render('createPortal',{
@@ -74,14 +67,6 @@ router.post('/createPortal', function (req,res) {
         });
     }else{
         var newPortal = new Portal(portalData);
-
-        console.log(
-            "This is the 2 portal\n",
-            newPortal,
-            "This 2 portal ends",
-            "-----------------------"
-        );
-
 
         Portal.createPortal(newPortal, function(err, portal){
             if (err) throw err;
