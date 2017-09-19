@@ -27,20 +27,17 @@ router.post('/twoButton', function (req,res) {
             res.render('createPortal');
         }else{
             console.log('Show portal was clicked!!');
-            var listOfAllPortals;
+
                 Portal.getPortals(function(err, portals){
                 if (err) throw err;
+                var listOfAllPortals = portals;
 
-                listOfAllPortals = portals;
-
+                console.log("Check starts ------------------");
+                console.log(listOfAllPortals);
+                console.log("Check Ends ------------------");
+                res.render('showPortals', {portals:listOfAllPortals});
             });
 
-            console.log("Check starts ------------------");
-            console.log(listOfAllPortals);
-            console.log("Check Ends ------------------");
-
-
-            res.render('index');
         }
 });
 
