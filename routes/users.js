@@ -2,6 +2,7 @@ var express = require('express');
 var router = express.Router();
 var passport = require('passport');
 var LocalStrategy = require('passport-local').Strategy;
+var Portal = require('../models/portals');
 var User = require('../models/users');
 
 
@@ -40,7 +41,8 @@ router.post('/createPortal', function (req,res) {
     var secs = req.body.secs;
     var message = req.body.message;
     var ttl = hours*3600 + mins*60 + secs;
-    console.log("Portal Name:"+ pName + "\nPortal Password:"+pPassword +"\nHours-Mins-Secs: "+ hours +"-" +mins+ "-"+ secs + "\nMessage:" + message + "\nTotal TTL: "+ ttl);
+    console.log("Portal Name:"+ pName + "\nPortal Password:"+pPassword +"\nHours-Mins-Secs: "+ hours +"-" +mins+ "-"+ secs +
+        "\nMessage:" + message + "\nTotal TTL: "+ ttl);
 
 
     //Validation of form
@@ -51,7 +53,19 @@ router.post('/createPortal', function (req,res) {
     req.checkBody('secs', 'Seconds is required/ Otherwise enter 0').notEmpty();
     req.checkBody('message', 'There has to be a message').notEmpty();
 
+    var portalData = {
+        PortalName: pName,
+        PortalPassword: pPassword,
+        TTL: ttl,
+        Message: message
+    };
 
+    console.log(
+        "This is the 1 portal\n",
+        portalData,
+        "This main 1 ends",
+        "-----------------------"
+    );
 
     var errors= req.validationErrors();
     if(errors){
@@ -59,12 +73,14 @@ router.post('/createPortal', function (req,res) {
             errors:errors
         });
     }else{
-        var newPortal = new Portal({
-            PortalName: pName,
-            PortalPassword: pPassword,
-            TTL: ttl,
-            Message: message
-        });
+        var newPortal = new Portal(portalData);
+
+        console.log(
+            "This is the 2 portal\n",
+            newPortal,
+            "This 2 portal ends",
+            "-----------------------"
+        );
 
 
         Portal.createPortal(newPortal, function(err, portal){
@@ -74,13 +90,9 @@ router.post('/createPortal', function (req,res) {
 
         req.flash('success_msg', 'You have successfully created a portal.. Inform your friend to check');
 
-        res.redirect('/users/login');
+        res.redirect('/');
     }
 
-
-
-
-    res.render('index');
 });
 
 
