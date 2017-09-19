@@ -1,11 +1,15 @@
 var mongoose = require('mongoose');
 var assert = require('assert');
 var ObjectId = require('mongodb').ObjectID;
+var bcrypt = require('bcryptjs');
+
+mongoose.connect('mongodb://localhost/loginapp');
+var db = mongoose.connection;
 
 var PortalSchema = mongoose.Schema({
 
     PortalName:{
-        type:String
+        type:String,
         index: true
     },
     PortalPassword:{
@@ -15,8 +19,7 @@ var PortalSchema = mongoose.Schema({
         type:Number
     },
     Message: {
-        type: String,
-
+        type: String
     }
 });
 
@@ -25,20 +28,27 @@ var Portal = module.exports = mongoose.model('Portal', PortalSchema);
 
 module.exports.createPortal= function(newPortal,callback){
     bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(newPortal.pPassword, salt, function(err, hash) {
+        bcrypt.hash(newPortal.PortalPassword, salt, function(err, hash) {
 
-            newPortal.pPassword = hash;
+            newPortal.PortalPassword = hash;
+
+            console.log(
+                "This is the 3 portal\n",
+                newPortal,
+                "This portals 3 ends",
+                "-----------------------"
+            );
+
 
             db.collection('portals').insertOne({
 
-                PortalName: newPortal.pName,
-                PortalPassword: newPortal.pPassword,
-                TTL: newPortal.ttl,
-                Message: newPortal.message
-
+                PortalName: newPortal.PortalName,
+                PortalPassword: newPortal.PortalPassword,
+                TTL: newPortal.TTL,
+                Message: newPortal.Message
             }, function (err, result) {
                 assert.equal(err, null);
-                console.log("Inserted a document into the restaurants collection.");
+                console.log("Inserted a document into the Portals collection.");
                 callback();
             });
 
