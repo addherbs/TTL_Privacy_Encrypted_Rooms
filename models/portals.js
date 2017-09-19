@@ -1,6 +1,6 @@
 var mongoose = require('mongoose');
 var assert = require('assert');
-var ObjectId = require('mongodb').ObjectID;
+//var ObjectId = require('mongodb').ObjectID;
 var bcrypt = require('bcryptjs');
 
 mongoose.connect('mongodb://localhost/loginapp');
@@ -32,13 +32,6 @@ module.exports.createPortal= function(newPortal,callback){
 
             newPortal.PortalPassword = hash;
 
-            console.log(
-                "This is the 3 portal\n",
-                newPortal,
-                "This portals 3 ends",
-                "-----------------------"
-            );
-
 
             db.collection('portals').insertOne({
 
@@ -46,6 +39,7 @@ module.exports.createPortal= function(newPortal,callback){
                 PortalPassword: newPortal.PortalPassword,
                 TTL: newPortal.TTL,
                 Message: newPortal.Message
+
             }, function (err, result) {
                 assert.equal(err, null);
                 console.log("Inserted a document into the Portals collection.");
