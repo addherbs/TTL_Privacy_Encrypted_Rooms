@@ -2,12 +2,12 @@
 <ul class="people_list">
 
     {{#each portals}}
-        <li>   <button name="test1" href="#">  {{this.PortalName}} </button>         </li>
+        <li>   <button name="test1" href="#">  {{this.PortalName}} </button>  <p> Message: {{this.Message}}</p>       </li>
     {{/each}}
 </ul>
 
 <div  id="check">
-<p >  {{ portals.5.Message }} </p>
+    {{ portals.5.Message }}
 </div>
 <button id="test1" name="test1" href="#"> Test1 </button>
 
