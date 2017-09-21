@@ -1,17 +1,26 @@
 <h2 class="page-header">    List of all the Available Portals   </h2>
 <ul class="people_list">
+
     {{#each portals}}
-        <li>{{this.PortalName}}</li>
+        <li>   <button name="test1" href="#">  {{this.PortalName}} </button>         </li>
     {{/each}}
 </ul>
 
+<div  id="check">
+<p >  {{ portals.5.Message }} </p>
+</div>
 <button id="test1" name="test1" href="#"> Test1 </button>
-<button id="test" name="test2" href="#"> Test2 </button>
 
 <script>
+
+    console.log("{{portals.1.Message}}");
+    alert("{{portals.1.Message}}");
+
     $(document).ready(function(){
         $("#test").toggle(1000).toggle(1000);
-        $("#test1").hide(300).show(300).hide(300).show(300);
+        $("button").hide(300).show(300).hide(300).show(300);
 //          $("button").hide(300).show(300).hide(300).show(300);
+
     });
+
 </script>
