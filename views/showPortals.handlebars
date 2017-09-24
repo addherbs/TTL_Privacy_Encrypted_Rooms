@@ -3,9 +3,11 @@
 
     <ul class="list-group">
     {{#each portals}}
-        <li class="list-group-item">   <button name="test1" href="#">  {{this.PortalName}} </button>  <p> Message: {{this.Message}}</p>       </li>
+        <li class="list-group-item">
+            Portal Name: <button name="test1" href="#">  {{this.PortalName}} </button>
+            <p> Message: {{this.Message}}</p>       </li>
     {{/each}}
-</ul>
+    </ul>
 </ul>
 <div  id="check">
     {{ portals.5.Message }}
