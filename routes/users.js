@@ -53,7 +53,7 @@ router.post('/createPortal', function (req,res) {
     var count = req.body.count;
     var ttl = hours*3600 + mins*60 + secs;
     console.log("Portal Name:"+ pName + "\nPortal Password:"+pPassword +"\nHours-Mins-Secs: "+ hours +"-" +mins+ "-"+ secs +
-        "\nMessage:" + message + "\nTotal TTL: "+ ttl);
+        "\nMessage:" + message + "\nTotal TTL: "+ ttl + "\t count: " + count);
 
 
     //Validation of form
