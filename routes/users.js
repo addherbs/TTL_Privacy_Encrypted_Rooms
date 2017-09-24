@@ -33,7 +33,7 @@ router.post('/twoButton', function (req,res) {
                 var listOfAllPortals = portals;
 
                 console.log("Check starts ------------------");
-                console.log(listOfAllPortals);
+                //console.log(listOfAllPortals);
                 console.log("Check Ends ------------------");
                 res.render('showPortals', {portals:listOfAllPortals});
             });
@@ -83,7 +83,7 @@ router.post('/createPortal', function (req,res) {
 
         Portal.createPortal(newPortal, function(err, portal){
             if (err) throw err;
-            console.log(portal);
+            //console.log(portal);
         });
 
         req.flash('success_msg', 'You have successfully created a portal.. Inform your friend to check');
