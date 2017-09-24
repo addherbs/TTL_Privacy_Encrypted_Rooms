@@ -20,6 +20,9 @@ var PortalSchema = mongoose.Schema({
     },
     Message: {
         type: String
+    },
+    Count: {
+        type: Number
     }
 });
 
