@@ -4,17 +4,14 @@
     <ul class="list-group">
     {{#each portals}}
         <li class="list-group-item">
-            Portal Name: <button id="testing" name="testing" value="{{this}}" href="#">  {{this.PortalName}} </button>
+            <!--Portal Name: <button id="testing" name="testing" value="{{this}}" href="#">  {{this.PortalName}} </button>-->
+            Portal Name: <button id="testing" name="testing" value="{{this._id}}!-@!{{this.PortalName}}!-@!{{this.PortalPassword}}!-@!{{this.TTL}}!-@!{{this.Message}}!-@!{{this.Count}}"
+            href="#">  {{this.PortalName}} </button>
             <p> Message: {{this.Message}}</p>
             <p> ID: {{this._id}}</p>      </li>
-
     {{/each}}
     </ul>
 </ul>
-
-<!--<div  id="check">-->
-    <!--{{ portals.5.Message }}-->
-<!--</div>-->
 
 <button id="test1" name="test1" href="#"> Test1 </button>
 
@@ -22,22 +19,78 @@
     console.log("{{portals.1.Message}}");
     //    alert("{{portals.1.Message}}");
 
+//    var clickMe = function (me) {
+//        console.log("yo man");
+//        console.log(me);
+//
+//        me = me.replace('"', "'");
+//
+//        console.log("yo man");
+//        console.log(me);
+//        //        me = ("'" + me+ "'" );
+//        console.log(JSON.parse(me));
+//        console.log("yo man");
+//        return true;
+//    };
+
     $(document).ready(function(){
 
-        $("#test").toggle(1000).toggle(1000);
-        $("button").hide(300).show(300).hide(300).show(300);
+//        $("#test").toggle(1000).toggle(1000);
+//        $("button").hide(300).show(300).hide(300).show(300);
+
+
 
         $("button").on("click", function () {
-            var currentPortal = $(this).attr("value");
+            var currentPortal = $(this).attr("value").split("!-@!");
             console.log("This is the check");
             console.log(currentPortal);
-            console.log("This is the check where it ends");
-            //alert(currentPortal);
+
+            var portalData = {
+                '_id' : currentPortal[0],
+                'PortalName' : currentPortal[1],
+                'PortalPassword' : currentPortal[2],
+                'TTL' : currentPortal[3],
+                'Message' : currentPortal[4],
+                'Count' : currentPortal[5]
+            };
+
+            console.log("This is the check");
+            console.log(portalData);
+
+
+//
+//            var newPortal = JSON.stringify(currentPortal);
+//
+//            console.log("This is the check");
+//            console.log(currentPortal);
+//            console.log(currentPortal._id);
+//            console.log(newPortal["PortalName"]);
+//            console.log(currentPortal.PortalPassword);
+//            console.log(currentPortal.TTL);
+//            console.log(currentPortal.Message);
+//
+//
+//var myCurrentPortal = JSON.parse(JSON.stringify(currentPortal));
+//            console.log("hahahahhaahahahaahha");
+//            console.log(myCurrentPortal);
+//            console.log("Check Name:" + myCurrentPortal.PortalName);
+//            console.log("hahahahhaahahahaahha");
+//
+//            console.log("hahahahhaahahahaahha");
+//            //            console.log("Keys: "+ Object.keys( currentPortal ));
+//            for (key in myCurrentPortal){
+//                console.log("Key: "+ key + " value " + currentPortal[key]);
+//            };
+//            console.log("hahahahhaahahahaahha");
+//
+//            console.log(myCurrentPortal);
+//
+//            console.log("This is the check where it ends");
+//            //alert(currentPortal);
 
             $.ajax({
                 type: 'POST',
-//                data: JSON.stringify(currentPortal),
-                data: currentPortal,
+                data: portalData,
                 dataType: 'json',
                 url: '/users/clickedPortal',
                 success: function() {
@@ -46,6 +99,7 @@
                 },
                 error: function () {
                     console.log("There was an error");
+//                    console.log(error);
                 }
             });
 
