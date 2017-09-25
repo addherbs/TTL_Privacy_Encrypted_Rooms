@@ -5,7 +5,6 @@ router.get('/', ensureAuthentication,function (req,res) {
     res.render('index');
 });
 
-
 function ensureAuthentication(req,res, next) {
     if(req.isAuthenticated()){
         return next();
@@ -16,8 +15,5 @@ function ensureAuthentication(req,res, next) {
     }
 }
 
-// res.post('/twoButtons', function (req,res) {
-//
-// });
 
 module.exports = router;
