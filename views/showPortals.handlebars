@@ -29,12 +29,15 @@
 
         $("button").on("click", function () {
             var currentPortal = $(this).attr("value");
+            console.log("This is the check");
             console.log(currentPortal);
-            alert(currentPortal);
+            console.log("This is the check where it ends");
+            //alert(currentPortal);
 
             $.ajax({
                 type: 'POST',
-                data: JSON.stringify(currentPortal),
+//                data: JSON.stringify(currentPortal),
+                data: currentPortal,
                 dataType: 'json',
                 url: '/users/clickedPortal',
                 success: function() {
