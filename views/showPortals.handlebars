@@ -27,7 +27,6 @@
         $("#test").toggle(1000).toggle(1000);
         $("button").hide(300).show(300).hide(300).show(300);
 
-
         $("button").on("click", function () {
             var currentPortal = $(this).attr("value");
             console.log(currentPortal);
@@ -37,7 +36,7 @@
                 type: 'POST',
                 data: JSON.stringify(currentPortal),
                 dataType: 'json',
-                url: 'http://localhost:3000/users/clickedPortal',
+                url: '/users/clickedPortal',
                 success: function() {
                     console.log('success on clicking portal');
                     //console.log(JSON.stringify(currentPortal));
