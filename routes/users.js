@@ -18,6 +18,15 @@ router.get('/login', function (req,res) {
 });
 
 
+router.post('/clickedPortal', function (req,res) {
+    console.log('clickedPortal is clicked ');
+    console.log('clickedPortal Data is: ', JSON.stringify(req.body));
+    console.log('clickedPortal is ends');
+    res.send(JSON.stringify(req.body));
+});
+
+
+
 // verify which button is pressed
 router.post('/twoButton', function (req,res) {
 
