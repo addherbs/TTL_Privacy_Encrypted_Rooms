@@ -19,10 +19,17 @@ router.get('/login', function (req,res) {
 
 
 router.post('/clickedPortal', function (req,res) {
+     var portalData = Object.keys(req.body)[0];
+
     console.log('clickedPortal is clicked ');
-    console.log('clickedPortal Data is: ', JSON.stringify(req.body));
+    console.log('clickedPortal Data is: ', portalData);
     console.log('clickedPortal is ends');
-    res.send(JSON.stringify(req.body));
+
+    res.render('portalData', {portal:portalData});
+
+
+   // res.render('portalData', {portalData: portalData });
+    //res.send(JSON.stringify(req.body));
 });
 
 
@@ -41,9 +48,10 @@ router.post('/twoButton', function (req,res) {
                 if (err) throw err;
                 var listOfAllPortals = portals;
 
-                console.log("Check starts ------------------");
-                //console.log(listOfAllPortals);
-                console.log("Check Ends ------------------");
+                // console.log("Check starts ------------------");
+                // //console.log(listOfAllPortals);
+                // console.log("Check Ends ------------------");
+
                 res.render('showPortals', {portals:listOfAllPortals});
             });
 
