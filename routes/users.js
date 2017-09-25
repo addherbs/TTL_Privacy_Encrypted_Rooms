@@ -19,20 +19,22 @@ router.get('/login', function (req,res) {
 
 
 router.post('/clickedPortal', function (req,res) {
-     var portalData = Object.keys(req.body)[0];
+    var str= req.body;
 
-    console.log('clickedPortal is clicked ');
-    console.log('clickedPortal Data is: ', portalData);
-    console.log('clickedPortal is ends');
+    var portalName = str.PortalName;
+    var portalPass = str["PortalPassword"];
+    var portalTTL = str.TTL;
+    var portalMessage = str.Message;
 
-    res.render('portalData', {portal:portalData});
 
+    console.log("Portal Name:"+ portalName + "\nPortal Password:"+portalPass +"\nTTL: "+"- "+ portalTTL +
+        "\nMessage:" + portalMessage );
 
-   // res.render('portalData', {portalData: portalData });
-    //res.send(JSON.stringify(req.body));
+    console.log('clickedPortal is ends\n');
+    console.log('---------------------');
+
+    res.render('portalData');
 });
-
-
 
 // verify which button is pressed
 router.post('/twoButton', function (req,res) {
