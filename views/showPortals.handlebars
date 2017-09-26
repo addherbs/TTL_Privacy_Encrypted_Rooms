@@ -16,7 +16,7 @@
 <button id="test1" name="test1" href="#"> Test1 </button>
 
 <script>
-    console.log("{{portals.1.Message}}");
+    <!--console.log("{{portals.1.Message}}");-->
     //    alert("{{portals.1.Message}}");
 
 //    var clickMe = function (me) {
@@ -42,8 +42,8 @@
 
         $("button").on("click", function () {
             var currentPortal = $(this).attr("value").split("!-@!");
-            console.log("This is the check");
-            console.log(currentPortal);
+//            console.log("This is the check");
+//            console.log(currentPortal);
 
             var portalData = {
                 '_id' : currentPortal[0],
@@ -55,7 +55,7 @@
             };
 
             console.log("This is the check");
-            console.log(portalData);
+            console.log(JSON.parse(JSON.stringify(portalData)));
 
 
 //
@@ -90,19 +90,29 @@
 
             $.ajax({
                 type: 'POST',
-                data: portalData,
+                data: JSON.stringify(portalData),
                 dataType: 'json',
-                url: '/users/clickedPortal',
-                success: function() {
-                    console.log('success on clicking portal');
-                    //console.log(JSON.stringify(currentPortal));
-                },
-                error: function () {
-                    console.log("There was an error");
-//                    console.log(error);
-                }
-            });
-
+                url: '/users/clickedPortal'
+//                success: function() {
+//                    console.log('success on clicking portal');
+//                    //console.log(JSON.stringify(currentPortal));
+//                },
+//                error: function () {
+//                    console.log("There was an error");
+////                    console.log(error);
+//                }
+            }).done( function (data) {
+                console.log("done check me begins");
+                console.log(data);
+                console.log("success");
+                console.log("done check me begins");
+//                console.log(value);
+            }).fail(function (error) {
+                console.log("check me begins");
+                console.log(error);
+                console.log("check me ends");
+                console.log("failed");
+            })
         });
     });
 
