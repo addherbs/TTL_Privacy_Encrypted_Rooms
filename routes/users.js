@@ -19,45 +19,62 @@ router.get('/login', function (req,res) {
 
 
 router.post('/clickedPortal', function (req,res) {
-    var str= req.body;
+    var str= Object.keys(req.body);
+    str = JSON.parse(str);
+    console.log(str);
+
+    // console.log("---------------");
+    // var str= JSON.parse(str);
+    // console.log(str);
+    // console.log("---------------");
 
     var portalName = str.PortalName;
     var portalPass = str["PortalPassword"];
     var portalTTL = str.TTL;
     var portalMessage = str.Message;
 
-
     console.log("Portal Name:"+ portalName + "\nPortal Password:"+portalPass +"\nTTL: "+"- "+ portalTTL +
         "\nMessage:" + portalMessage );
+    console.log('clickedPortal is ends');
+    console.log('---------------------\n');
+try {
+    console.log('mkc bc execute ho');
+    res.send(str);
+    // res.redirect('/users/hereYourHaveClicked');
 
-    console.log('clickedPortal is ends\n');
-    console.log('---------------------');
-
-    res.render('portalData');
+}catch(err){
+    console.log(err);
+}
 });
+
+// router.get('/hereYourHaveClicked', function (req,res) {
+//
+//     res.render('lol');
+// });
+
 
 // verify which button is pressed
 router.post('/twoButton', function (req,res) {
 
-        req.body = JSON.parse(JSON.stringify(req.body));
-        if(req.body.hasOwnProperty('createPortal')){
-            console.log('create portal was clicked!!');
-            res.render('createPortal');
-        }else{
-            console.log('Show portal was clicked!!');
+    req.body = JSON.parse(JSON.stringify(req.body));
+    if(req.body.hasOwnProperty('createPortal')){
+        console.log('create portal was clicked!!');
+        res.render('createPortal');
+    }else{
+        console.log('Show portal was clicked!!');
 
-                Portal.getPortals(function(err, portals){
-                if (err) throw err;
-                var listOfAllPortals = portals;
+        Portal.getPortals(function(err, portals){
+            if (err) throw err;
+            var listOfAllPortals = portals;
 
-                // console.log("Check starts ------------------");
-                // //console.log(listOfAllPortals);
-                // console.log("Check Ends ------------------");
+            // console.log("Check starts ------------------");
+            // //console.log(listOfAllPortals);
+            // console.log("Check Ends ------------------");
 
-                res.render('showPortals', {portals:listOfAllPortals});
-            });
+            res.render('showPortals', {portals:listOfAllPortals});
+        });
 
-        }
+    }
 });
 
 
@@ -194,15 +211,15 @@ router.post('/login',
     passport.authenticate('local', {successRedirect:'/', failureRedirect:'/users/login',failureFlash: true}),
     function(req, res) {
         res.redirect('/');
-});
+    });
 
 
 router.get('/logout', function (req,res) {
-   req.logOut();
+    req.logOut();
 
-   req.flash('success_msg', 'You are logged out');
+    req.flash('success_msg', 'You are logged out');
 
-   res.redirect('/users/login');
+    res.redirect('/users/login');
 });
 
 module.exports = router;
