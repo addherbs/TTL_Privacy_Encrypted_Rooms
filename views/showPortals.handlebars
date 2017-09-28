@@ -16,22 +16,6 @@
 <button id="test1" name="test1" href="#"> Test1 </button>
 
 <script>
-    <!--console.log("{{portals.1.Message}}");-->
-    //    alert("{{portals.1.Message}}");
-
-//    var clickMe = function (me) {
-//        console.log("yo man");
-//        console.log(me);
-//
-//        me = me.replace('"', "'");
-//
-//        console.log("yo man");
-//        console.log(me);
-//        //        me = ("'" + me+ "'" );
-//        console.log(JSON.parse(me));
-//        console.log("yo man");
-//        return true;
-//    };
 
     $(document).ready(function(){
 
@@ -58,18 +42,7 @@
             console.log(JSON.parse(JSON.stringify(portalData)));
 
 
-//
-//            var newPortal = JSON.stringify(currentPortal);
-//
-//            console.log("This is the check");
-//            console.log(currentPortal);
-//            console.log(currentPortal._id);
-//            console.log(newPortal["PortalName"]);
-//            console.log(currentPortal.PortalPassword);
-//            console.log(currentPortal.TTL);
-//            console.log(currentPortal.Message);
-//
-//
+
 //var myCurrentPortal = JSON.parse(JSON.stringify(currentPortal));
 //            console.log("hahahahhaahahahaahha");
 //            console.log(myCurrentPortal);
@@ -93,14 +66,6 @@
                 data: JSON.stringify(portalData),
                 dataType: 'json',
                 url: '/users/clickedPortal'
-//                success: function() {
-//                    console.log('success on clicking portal');
-//                    //console.log(JSON.stringify(currentPortal));
-//                },
-//                error: function () {
-//                    console.log("There was an error");
-////                    console.log(error);
-//                }
             }).done( function (data) {
                 console.log("done check me begins");
                 console.log(data);
