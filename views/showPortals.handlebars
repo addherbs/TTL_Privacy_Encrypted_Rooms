@@ -8,29 +8,35 @@
                 Portal Name: <button id="testing" name="testing" value="{{this._id}}!-@!{{this.PortalName}}!-@!{{this.PortalPassword}}!-@!{{this.TTL}}!-@!{{this.Message}}!-@!{{this.Count}}"
                                      href="#">  {{this.PortalName}} </button>
                 <p> Message: {{this.Message}}</p>
-                <p> ID: {{this._id}}</p>      </li>
+                <p> ID: {{this._id}}</p>
+
+                <div id="verifyPortalClicked">
+                    <form method="post" action="/users/verifyPortalClicked">
+                        <div class="form-group">
+                            <label> Portal Name: </label>
+                            <input type="text" class="form-control" name="pname" placeholder="Portal Name" >
+                        </div>
+                        <div class="form-group">
+                            <label> Portal Password: </label>
+                            <input type="password" class="form-control" name="password" placeholder="Portal Password" >
+                        </div>
+                        <div class="form-group">
+                            <label> Confirm Portal Password: </label>
+                            <input type="password" class="form-control" name="password" placeholder="Confirm Portal Password" >
+                        </div>
+                        <button type="submit" class="btn btn-default"> Submit </button>
+
+                    </form>
+                </div>
+
+
+
+            </li>
         {{/each}}
     </ul>
 </ul>
 
-<div id="verifyPortalClicked">
-    <form method="post" action="/users/verifyPortalClicked">
-        <div class="form-group">
-            <label> Portal Name: </label>
-            <input type="text" class="form-control" name="pname" placeholder="Portal Name" >
-        </div>
-        <div class="form-group">
-            <label> Portal Password: </label>
-            <input type="password" class="form-control" name="password" placeholder="Portal Password" >
-        </div>
-        <div class="form-group">
-            <label> Confirm Portal Password: </label>
-            <input type="password" class="form-control" name="password" placeholder="Confirm Portal Password" >
-        </div>
-        <button type="submit" class="btn btn-default"> Submit </button>
 
-    </form>
-</div>
 
 
 <button id="test1" name="test1" href="#"> Test1 </button>
@@ -43,8 +49,9 @@
 //        $("button").hide(300).show(300).hide(300).show(300);
 
 
-
+        $("#verifyPortalClicked").show();
         $("button").on("click", function () {
+            $(this).find("#verifyPortalClicked").toggle();
             var currentPortal = $(this).attr("value").split("!-@!");
 //            console.log("This is the check");
 //            console.log(currentPortal);
@@ -61,8 +68,8 @@
             console.log("This is the check");
             console.log(JSON.parse(JSON.stringify(portalData)));
 
+            //$(this).next("#verifyPortalClicked").toggle(500);
 
-            
 /*
             $.ajax({
                 type: 'POST',
