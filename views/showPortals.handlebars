@@ -7,8 +7,8 @@
                 <!--Portal Name: <button id="testing" name="testing" value="{{this}}" href="#">  {{this.PortalName}} </button>-->
                 Portal Name: <button id="testing" name="testing" value="{{this._id}}!-@!{{this.PortalName}}!-@!{{this.PortalPassword}}!-@!{{this.TTL}}!-@!{{this.Message}}!-@!{{this.Count}}"
                                      href="#">  {{this.PortalName}} </button>
-                <p> Message: {{this.Message}}</p>
-                <p> ID: {{this._id}}</p>
+                <!--<p> Message: {{this.Message}}</p>-->
+                <!--<p> ID: {{this._id}}</p>-->
 
                 <div id="verifyPortalClicked">
                     <form method="post" action="/users/verifyPortalClicked">
@@ -81,7 +81,7 @@
                 console.log(data);
                 console.log("success");
                 console.log("done check me begins");
-//                console.log(value);
+//              console.log(value);
             }).fail(function (error) {
                 console.log("check me begins");
                 console.log(error);
