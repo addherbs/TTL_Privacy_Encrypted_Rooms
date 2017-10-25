@@ -5,12 +5,12 @@
         {{#each portals}}
             <li class="list-group-item">
                 <!--Portal Name: <button id="testing" name="testing" value="{{this}}" href="#">  {{this.PortalName}} </button>-->
-                Portal Name: <button class="joinPortalButton" id="testing" name="testing" value="{{this._id}}!-@!{{this.PortalName}}!-@!{{this.PortalPassword}}!-@!{{this.TTL}}!-@!{{this.Message}}!-@!{{this.Count}}"
+                Portal Name: <button class="joinPortalButton" name="testing" value="{{this._id}}!-@!{{this.PortalName}}!-@!{{this.PortalPassword}}!-@!{{this.TTL}}!-@!{{this.Message}}!-@!{{this.Count}}"
                                      href="#">  {{this.PortalName}} </button>
                 <!--<p> Message: {{this.Message}}</p>-->
                 <!--<p> ID: {{this._id}}</p>-->
 
-                <div id="verifyPortalClicked" class="verifyPortalClicked">
+                <div id="joinPortalButton{{this._id}}" class="verifyPortalClicked">
                     <form method="post">
                         <div class="form-group">
                             <label> Portal Name: </label>
@@ -46,9 +46,9 @@
     function enterPassword() {
         console.log("Here I am dude! ");
         console.log(this);
-        $(".verifyPortalClicked").hide(2000);
-
-        $(".verifyPortalClicked").show(2000);
+//        $(".verifyPortalClicked").hide(2000);
+//
+//        $(".verifyPortalClicked").show(2000);
         console.log("!!!!!!!!Here I am dude! ");
     }
 
@@ -59,15 +59,15 @@
 
 
 //        $("#verifyPortalClicked").show();
-//        $(".verifyPortalClicked").hide();
+        $(".verifyPortalClicked").hide();
 
 //        $("#joinPortalButton").onclick(function () {
 //            $(".verifyPortalClicked").toggle();
 //        });
 
-        $(".joinPortalButton").on("click",function () {
-            $(".verifyPortalClicked").toggle();
-        });
+//        $(".joinPortalButton").on("click",function () {
+//            $(".verifyPortalClicked").toggle();
+//        });
 
 //        $("#joinPortalButton").on('click', function () {
 //            $(".verifyPortalClicked").toggle();
@@ -75,13 +75,21 @@
 
 
 //        $("#verifyPortalClicked").hide();
-        $("button").on("click", function () {
-            $(this).find("#verifyPortalClicked").toggle();
+        $(".joinPortalButton").on("click", function () {
+//            $(this).find("#verifyPortalClicked").toggle();
             var currentPortal = $(this).attr("value").split("!-@!");
 //            console.log("This is the check");
 //            console.log(currentPortal);
 
+
+            var idOfSelecedButton = currentPortal[0];
+            idOfSelecedButton = "#joinPortalButton" +  idOfSelecedButton;
+            console.log("this value is: " + idOfSelecedButton);
+
+            $(idOfSelecedButton).toggle('show');
+
             var portalData = {
+
                 '_id' : currentPortal[0],
                 'PortalName' : currentPortal[1],
                 'PortalPassword' : currentPortal[2],
