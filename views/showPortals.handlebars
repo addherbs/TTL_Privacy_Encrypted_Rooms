@@ -1,4 +1,8 @@
 <h2 class="page-header">    List of all the Available Portals   </h2>
+
+<button type="submit"  value="Refresh Page" onClick="refreshPage()" >Refresh Page </button>
+
+<br>
 <ul class="people_list">
 
     <ul class="list-group">
@@ -37,14 +41,30 @@
 </ul>
 
 
-<form action = "/users/refreshPortalList" method = "post">
-    <input type="submit" formmethod="post" value="Refresh Page" onClick="window.location.href='/refreshPortalList'">
-</form>
+<button type="submit"  value="Refresh Page" onClick="refreshPage()" >Refresh Page </button>
+
 
 
 
 
 <script>
+    
+    function refreshPage() {
+
+        $.ajax({
+            type: 'POST',
+            url: '/users/refreshPortalList'
+        }).done( function (portals) {
+            console.log("success refreshed page");
+            console.log(portals);
+            window.location.href = "#?portals"+ portals;
+//            window.location("#", portals);
+            console.log("success refreshed page ends lol");
+        }).fail(function (error) {
+            console.log(error);
+        })
+
+    }
     
     function enterPassword() {
         console.log("Here I am dude! ");
