@@ -92,6 +92,9 @@ router.post('/refreshPortalList', function (req,res) {
 
 
 
+router.post('/eachPortalInputData', function (req,res) {
+    console.log("reached eachPortalInputData");
+});
 
 
 // Create a portal
