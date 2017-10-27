@@ -94,6 +94,8 @@ router.post('/refreshPortalList', function (req,res) {
 
 router.post('/eachPortalInputData', function (req,res) {
     console.log("reached eachPortalInputData");
+        var formData = req.body.formatDate();
+        console.log(formData);
 });
 
 
