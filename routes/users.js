@@ -84,9 +84,9 @@ router.post('/refreshPortalList', function (req,res) {
         console.log('Refresh portal was clicked!!');
         Portal.getPortals(function(err, portals){
             if (err) throw err;
-            var listOfAllPortals = portals;
-
-            res.render('showPortals', {portals:listOfAllPortals});
+            // res.render('showPortals', {portals:listOfAllPortals});
+            console.log(portals);
+            res.send(portals);
         });
 });
 
