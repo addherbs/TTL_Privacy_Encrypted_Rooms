@@ -38,9 +38,11 @@ router.post('/clickedPortal', function (req,res) {
     console.log('clickedPortal is ends');
     console.log('---------------------\n');
 try {
+	
+	
     console.log('mkc bc execute ho');
     res.send(str);
-    // res.redirect('/users/hereYourHaveClicked');
+    
 
 }catch(err){
     console.log(err);
