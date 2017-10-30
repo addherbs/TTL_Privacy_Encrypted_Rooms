@@ -9,7 +9,6 @@
     <ul class="list-group">
         {{#each portals}}
             <li class="list-group-item">
-                <!--Portal Name: <button id="testing" name="testing" value="{{this}}" href="#">  {{this.PortalName}} </button>-->
                 Portal Name: <button class="joinPortalButton" name="testing" value="{{this._id}}!-@!{{this.PortalName}}!-@!{{this.PortalPassword}}!-@!{{this.TTL}}!-@!{{this.Message}}!-@!{{this.Count}}"
                                      href="#">  {{this.PortalName}} </button>
 
@@ -30,12 +29,10 @@
                         <button   type="submit" class="btn btn-default"  onclick="enterPassword()"  style="float: right;" > Submit </button>
                     </form>
                 </div>
-
             </li>
         {{/each}}
     </ul>
 </ul>
-
 
 <button type="submit"  value="Refresh Page" onClick="refreshPage()" >Refresh Page </button>
 
@@ -47,8 +44,8 @@
     frm.submit(function(e) {
 
         var url = "users/eachPortalInputData";
-console.log("lololololo");
-        e.preventDefault(); // avoid to execute the actual submit of the form.
+        console.log("lololololo");
+//        e.preventDefault(); // avoid to execute the actual submit of the form.
 //
 //        $.ajax({
 //            type: "POST",
@@ -64,7 +61,7 @@ console.log("lololololo");
     });
 
 
-    
+
     function refreshPage() {
 
         $.ajax({
@@ -81,7 +78,7 @@ console.log("lololololo");
         })
 
     }
-    
+
     function enterPassword() {
         console.log("Here I am dude! ");
         console.log(this);
@@ -113,27 +110,27 @@ console.log("lololololo");
 
             //$(this).next("#verifyPortalClicked").toggle(500);
 
-/*
-            $.ajax({
-                type: 'POST',
-                data: JSON.stringify(portalData),
-                dataType: 'json',
-                url: '/users/clickedPortal'
-            }).done( function (data) {
-                console.log("done check me begins");
-                console.log(data);
-                console.log("success");
-                console.log("done check me begins");
-//              console.log(value);
-            }).fail(function (error) {
-                console.log("check me begins");
-                console.log(error);
-                console.log("check me ends");
-                console.log("failed");
-            })
+            /*
+                        $.ajax({
+                            type: 'POST',
+                            data: JSON.stringify(portalData),
+                            dataType: 'json',
+                            url: '/users/clickedPortal'
+                        }).done( function (data) {
+                            console.log("done check me begins");
+                            console.log(data);
+                            console.log("success");
+                            console.log("done check me begins");
+            //              console.log(value);
+                        }).fail(function (error) {
+                            console.log("check me begins");
+                            console.log(error);
+                            console.log("check me ends");
+                            console.log("failed");
+                        })
 
 
-            */
+                        */
         });
     });
 
