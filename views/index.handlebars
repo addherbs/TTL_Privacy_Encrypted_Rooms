@@ -1,13 +1,17 @@
-<h2>
-    <p> Welcome to the dashboard, {{user.UserName}} </p>
-</h2>
+      <div id="content">
+   <h1>
+    Welcome to the dashboard, {{user.UserName}} </h1>
 
 <form method="post" action="/users/twoButton">
 
     <div class="form-group" id="twoButton" name="twoButton">
-            <button name="createPortal">Create Portal</button>
-            <button name="showPortal">Show Portals</button>
+            <button name="createPortal" class="btn btn-primary btn-lg round">Create Portal</button>
+		 
+            <button name="showPortal" class="btn btn-primary btn-lg round">Show Portals</button>
+			
+
     </div>
 
 </form>
 
+</div>
