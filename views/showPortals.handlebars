@@ -2,12 +2,13 @@
    <div id="content">
 
 <h2 class="page-header">    List of all the Available Portals   </h2>
-
-
+<form method="post" action="/users/refreshPortalList1">
+       <button type="submit"  class="btn btn-primary btn-lg round" value="Refresh Page">Refresh Page </button>
+</form>
 <br>
 <br>
+
 <ul >
-
     <ul  >
         {{#each portals}}
             <li >
@@ -46,7 +47,24 @@
 
 <script>
 
-    var frm = $('#eachPortalInputData');
+
+    function refreshPage() {
+
+        $.ajax({
+            type: 'POST',
+            url: '/users/refreshPortalList'
+        }).done( function (portals) {
+            console.log("success refreshed page");
+            console.log(portals);
+            window.location.href = "#?portals"+ portals;
+//            window.location("#", portals);
+            console.log("success refreshed page ends lol");
+        }).fail(function (error) {
+            console.log(error);
+        });
+
+
+        var frm = $('#eachPortalInputData');
 
     frm.submit(function(e) {
 
@@ -68,21 +86,6 @@ console.log("lololololo");
     });
 
 
-    
-    function refreshPage() {
-
-        $.ajax({
-            type: 'POST',
-            url: '/users/refreshPortalList'
-        }).done( function (portals) {
-            console.log("success refreshed page");
-            console.log(portals);
-            window.location.href = "#?portals"+ portals;
-//            window.location("#", portals);
-            console.log("success refreshed page ends lol");
-        }).fail(function (error) {
-            console.log(error);
-        })
 
     }
     

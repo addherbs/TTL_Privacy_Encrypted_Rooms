@@ -78,6 +78,17 @@ router.post('/twoButton', function (req,res) {
 });
 
 
+router.post('/refreshPortalList1', function (req,res) {
+
+    console.log('Refresh portal was clicked!!');
+    Portal.getPortals(function(err, portals){
+        console.log('Here I am dude');
+        if (err) throw err;
+        res.render('showPortals', {portals:portals});
+    });
+});
+
+
 // refresh button which button is pressed
 router.post('/refreshPortalList', function (req,res) {
 
