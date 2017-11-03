@@ -119,6 +119,9 @@ router.post('/createPortal', function (req,res) {
     var secs = req.body.secs;
     var message = req.body.message;
     var count = req.body.count;
+
+    var cpPassword = req.body.cpPassword;
+
     var ttl = hours*3600 + mins*60 + secs;
     console.log("Portal Name:"+ pName + "\nPortal Password:"+pPassword +"\nHours-Mins-Secs: "+ hours +"-" +mins+ "-"+ secs +
         "\nMessage:" + message + "\nTotal TTL: "+ ttl + "\t count: " + count);
@@ -127,11 +130,14 @@ router.post('/createPortal', function (req,res) {
     //Validation of form
     req.checkBody('pName', 'Portal Name is required').notEmpty();
     req.checkBody('pPassword', 'Portal Password is required').notEmpty();
+
     req.checkBody('hours', 'Hours is required/ Otherwise enter 0').notEmpty();
     req.checkBody('mins', 'Minutes is required/ Otherwise enter 0').notEmpty();
     req.checkBody('secs', 'Seconds is required/ Otherwise enter 0').notEmpty();
     req.checkBody('message', 'There has to be a message').notEmpty();
     req.checkBody('count', 'You have to enter open count/ Atleast 1').notEmpty();
+
+    req.checkBody('cpPassword', 'Confirm Portal Password is required').notEmpty().equals(req.body.pPassword);
 
     var portalData = {
         PortalName: pName,
