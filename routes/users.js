@@ -78,8 +78,8 @@ router.post('/twoButton', function (req,res) {
 });
 
 
-router.post('/refreshPortalList1', function (req,res) {
-
+// refresh button which button is pressed
+router.post('/refreshPortalList', function (req,res) {
     console.log('Refresh portal was clicked!!');
     Portal.getPortals(function(err, portals){
         console.log('Here I am dude');
@@ -87,20 +87,6 @@ router.post('/refreshPortalList1', function (req,res) {
         res.render('showPortals', {portals:portals});
     });
 });
-
-
-// refresh button which button is pressed
-router.post('/refreshPortalList', function (req,res) {
-
-        console.log('Refresh portal was clicked!!');
-        Portal.getPortals(function(err, portals){
-            if (err) throw err;
-            // res.render('showPortals', {portals:listOfAllPortals});
-            console.log(portals);
-            res.send(portals);
-        });
-});
-
 
 
 router.post('/eachPortalInputData', function (req,res) {
@@ -130,14 +116,12 @@ router.post('/createPortal', function (req,res) {
     //Validation of form
     req.checkBody('pName', 'Portal Name is required').notEmpty();
     req.checkBody('pPassword', 'Portal Password is required').notEmpty();
-
     req.checkBody('hours', 'Hours is required/ Otherwise enter 0').notEmpty();
     req.checkBody('mins', 'Minutes is required/ Otherwise enter 0').notEmpty();
     req.checkBody('secs', 'Seconds is required/ Otherwise enter 0').notEmpty();
     req.checkBody('message', 'There has to be a message').notEmpty();
     req.checkBody('count', 'You have to enter open count/ Atleast 1').notEmpty();
-
-    req.checkBody('cpPassword', 'Confirm Portal Password is required').notEmpty().equals(req.body.pPassword);
+    req.checkBody('cpPassword', 'Confirm Portal Password should match Portal Password').notEmpty().equals(req.body.pPassword);
 
     var portalData = {
         PortalName: pName,

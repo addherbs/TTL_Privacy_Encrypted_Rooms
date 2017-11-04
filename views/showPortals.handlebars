@@ -1,77 +1,72 @@
 <div id="site_content">
-   <div id="content">
+    <div id="content">
 
-<h2 class="page-header">    List of all the Available Portals   </h2>
-<form method="post" action="/users/refreshPortalList1">
-       <button type="submit"  class="btn btn-primary btn-lg round" value="Refresh Page">Refresh Page </button>
-</form>
-<br>
-<br>
+        <h2 class="page-header">    List of all the Available Portals   </h2>
+        <form method="post" action="/users/refreshPortalList">
+            <button type="submit"  class="btn btn-primary btn-lg round" value="Refresh Page">Refresh Page </button>
+        </form>
+        <br>
+        <br>
 
-<ul >
-    <ul  >
-        {{#each portals}}
-            <li >
-                <!--Portal Name: <button id="testing" name="testing" value="{{this}}" href="#">  {{this.PortalName}} </button>-->
-                Portal Name:<button class="joinPortalButton btn btn-primary btn-sm round" name="testing" value="{{this._id}}!-@!{{this.PortalName}}!-@!{{this.PortalPassword}}!-@!{{this.TTL}}!-@!{{this.Message}}!-@!{{this.Count}}"
-                                     href="#">    {{this.PortalName}} </button> 
+        <ul >
+            <ul  >
+                {{#each portals}}
+                    <li >
+                        <!--Portal Name: <button id="testing" name="testing" value="{{this}}" href="#">  {{this.PortalName}} </button>-->
+                        Portal Name: &ensp; <button class="joinPortalButton btn btn-primary btn-sm round" name="testing" value="{{this._id}}!-@!{{this.PortalName}}!-@!{{this.PortalPassword}}!-@!{{this.TTL}}!-@!{{this.Message}}!-@!{{this.Count}}"
+                                            href="#">    {{this.PortalName}} </button>
 
-                <div id="joinPortalButton{{this._id}}" class="verifyPortalClicked">
-                    <form id="eachPortalInputData" >
-                        <div class="form-group">
-                            <label> Portal Name: </label>
-                            <input type="text" class="form-control" name="pname" placeholder="Portal Name" >
+                        <div id="joinPortalButton{{this._id}}" class="verifyPortalClicked">
+                            <form id="eachPortalInputData" >
+                                <div class="form-group">
+                                    <label> Portal Name: </label>
+                                    <input type="text" class="form-control" name="pname" placeholder="Portal Name" >
+                                </div>
+                                <div class="form-group">
+                                    <label> Portal Password: </label>
+                                    <input type="password" class="form-control" name="password" placeholder="Portal Password" >
+                                </div>
+                                <div class="form-group">
+                                    <label> Confirm Portal Password: </label>
+                                    <input type="password" class="form-control" name="password" placeholder="Confirm Portal Password" >
+                                </div>
+                                <button   type="submit" class="btn btn-primary btn-lg round"  onclick="enterPassword()"  style="float: right;" > Submit </button>
+                            </form>
                         </div>
-                        <div class="form-group">
-                            <label> Portal Password: </label>
-                            <input type="password" class="form-control" name="password" placeholder="Portal Password" >
-                        </div>
-                        <div class="form-group">
-                            <label> Confirm Portal Password: </label>
-                            <input type="password" class="form-control" name="password" placeholder="Confirm Portal Password" >
-                        </div>
-                        <button   type="submit" class="btn btn-primary btn-lg round"  onclick="enterPassword()"  style="float: right;" > Submit </button>
-                    </form>
-                </div>
 
-            </li>
-        {{/each}}
-    </ul>
-</ul>
+                    </li>
+                {{/each}}
+            </ul>
+        </ul>
 
 
-<button type="submit"  class="btn btn-primary btn-lg round" value="Refresh Page" onClick="refreshPage()" >Refresh Page </button>
-
-</div>
+        <form method="post" action="/users/refreshPortalList">
+            <button type="submit"  class="btn btn-primary btn-lg round" value="Refresh Page">Refresh Page </button>
+        </form>
+    </div>
 </div>
 
 <script>
 
 
-    function refreshPage() {
-
-        $.ajax({
-            type: 'POST',
-            url: '/users/refreshPortalList'
-        }).done( function (portals) {
-            console.log("success refreshed page");
-            console.log(portals);
-            window.location.href = "#?portals"+ portals;
-//            window.location("#", portals);
-            console.log("success refreshed page ends lol");
-        }).fail(function (error) {
-            console.log(error);
-        });
-
-
-        var frm = $('#eachPortalInputData');
-
-    frm.submit(function(e) {
-
-        var url = "users/eachPortalInputData";
-console.log("lololololo");
-        e.preventDefault(); // avoid to execute the actual submit of the form.
-//
+//    function refreshPage() {
+//        $.ajax({
+//            type: 'POST',
+//            url: '/users/refreshPortalList'
+//        }).done( function (portals) {
+//            console.log("success refreshed page");
+//            console.log(portals);
+//            window.location.href = "#?portals"+ portals;
+////            window.location("#", portals);
+//            console.log("success refreshed page ends lol");
+//        }).fail(function (error) {
+//            console.log(error);
+//        });
+//       var frm = $('#eachPortalInputData');
+//        frm.submit(function(e) {
+//            var url = "users/eachPortalInputData";
+//            console.log("lololololo");
+//            e.preventDefault(); // avoid to execute the actual submit of the form.
 //        $.ajax({
 //            type: "POST",
 //            url: url,
@@ -82,13 +77,9 @@ console.log("lololololo");
 //                console.log(data); // show response from the php script.
 //            }
 //        });
+//        });
+//    }
 
-    });
-
-
-
-    }
-    
     function enterPassword() {
         console.log("Here I am dude! ");
         console.log(this);
@@ -120,27 +111,27 @@ console.log("lololololo");
 
             //$(this).next("#verifyPortalClicked").toggle(500);
 
-/*
-            $.ajax({
-                type: 'POST',
-                data: JSON.stringify(portalData),
-                dataType: 'json',
-                url: '/users/clickedPortal'
-            }).done( function (data) {
-                console.log("done check me begins");
-                console.log(data);
-                console.log("success");
-                console.log("done check me begins");
-//              console.log(value);
-            }).fail(function (error) {
-                console.log("check me begins");
-                console.log(error);
-                console.log("check me ends");
-                console.log("failed");
-            })
+            /*
+                        $.ajax({
+                            type: 'POST',
+                            data: JSON.stringify(portalData),
+                            dataType: 'json',
+                            url: '/users/clickedPortal'
+                        }).done( function (data) {
+                            console.log("done check me begins");
+                            console.log(data);
+                            console.log("success");
+                            console.log("done check me begins");
+            //              console.log(value);
+                        }).fail(function (error) {
+                            console.log("check me begins");
+                            console.log(error);
+                            console.log("check me ends");
+                            console.log("failed");
+                        })
 
 
-            */
+                        */
         });
     });
 
