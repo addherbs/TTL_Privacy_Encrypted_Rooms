@@ -1,36 +1,46 @@
 <div id="site_content">
     <div id="content">
 
-        <h2 class="page-header">    List of all the Available Portals   </h2>
+        <h2 class="page-header"> List of all the Available Portals </h2>
         <form method="post" action="/users/refreshPortalList">
-            <button type="submit"  class="btn btn-primary btn-lg round" value="Refresh Page">Refresh Page </button>
+            <button type="submit" class="btn btn-primary btn-lg round" value="Refresh Page">Refresh Page</button>
         </form>
         <br>
         <br>
 
-        <ul >
-            <ul  >
+        <ul>
+            <ul>
                 {{#each portals}}
-                    <li >
+                    <li>
                         <!--Portal Name: <button id="testing" name="testing" value="{{this}}" href="#">  {{this.PortalName}} </button>-->
-                        Portal Name: &ensp; <button class="joinPortalButton btn btn-primary btn-sm round" name="testing" value="{{this._id}}!-@!{{this.PortalName}}!-@!{{this.PortalPassword}}!-@!{{this.TTL}}!-@!{{this.Message}}!-@!{{this.Count}}"
-                                            href="#">    {{this.PortalName}} </button>
+                        Portal Name: &ensp;
+                        <button class="joinPortalButton btn btn-primary btn-sm round" name="testing"
+                                value="{{this._id}}!-@!{{this.PortalName}}!-@!{{this.PortalPassword}}!-@!{{this.TTL}}!-@!{{this.Message}}!-@!{{this.Count}}"
+                                href="#">    {{this.PortalName}} </button>
 
                         <div id="joinPortalButton{{this._id}}" class="verifyPortalClicked">
-                            <form id="eachPortalInputData" >
+                            <form id="eachPortalInputData">
                                 <div class="form-group">
                                     <label> Portal Name: </label>
-                                    <input type="text" class="form-control" name="pname" placeholder="Portal Name" >
+                                    <input type="text" class="form-control" name="pname" placeholder="Portal Name">
                                 </div>
                                 <div class="form-group">
                                     <label> Portal Password: </label>
-                                    <input type="password" class="form-control" name="password" placeholder="Portal Password" >
+                                    <input type="password" class="form-control" id="txtNewPassword" name="password"
+                                           placeholder="Portal Password">
                                 </div>
                                 <div class="form-group">
                                     <label> Confirm Portal Password: </label>
-                                    <input type="password" class="form-control" name="password" placeholder="Confirm Portal Password" >
+                                    <input type="password" class="form-control" id="txtConfirmPassword" name="password"
+                                           onChange="checkPasswordMatch();" placeholder="Confirm Portal Password">
                                 </div>
-                                <button   type="submit" class="btn btn-primary btn-lg round"  onclick="enterPassword()"  style="float: right;" > Submit </button>
+
+                                <div class="form-group registrationFormAlert" id="divCheckPasswordMatch"></div>
+
+
+                                <button type="submit" class="btn btn-primary btn-lg round" onclick="enterPassword()"
+                                        style="float: right;"> Submit
+                                </button>
                             </form>
                         </div>
 
@@ -41,44 +51,22 @@
 
 
         <form method="post" action="/users/refreshPortalList">
-            <button type="submit"  class="btn btn-primary btn-lg round" value="Refresh Page">Refresh Page </button>
+            <button type="submit" class="btn btn-primary btn-lg round" value="Refresh Page">Refresh Page</button>
         </form>
     </div>
 </div>
 
 <script>
 
+    function checkPasswordMatch() {
+        var password = $("#txtNewPassword").val();
+        var confirmPassword = $("#txtConfirmPassword").val();
 
-//    function refreshPage() {
-//        $.ajax({
-//            type: 'POST',
-//            url: '/users/refreshPortalList'
-//        }).done( function (portals) {
-//            console.log("success refreshed page");
-//            console.log(portals);
-//            window.location.href = "#?portals"+ portals;
-////            window.location("#", portals);
-//            console.log("success refreshed page ends lol");
-//        }).fail(function (error) {
-//            console.log(error);
-//        });
-//       var frm = $('#eachPortalInputData');
-//        frm.submit(function(e) {
-//            var url = "users/eachPortalInputData";
-//            console.log("lololololo");
-//            e.preventDefault(); // avoid to execute the actual submit of the form.
-//        $.ajax({
-//            type: "POST",
-//            url: url,
-//            data: frm.serialize(), // serializes the form's elements.
-//            success: function(data)
-//            {
-//                console.log("enters success");
-//                console.log(data); // show response from the php script.
-//            }
-//        });
-//        });
-//    }
+        if (password != confirmPassword)
+            $("#divCheckPasswordMatch").html("Passwords do not match!");
+        else
+            $("#divCheckPasswordMatch").html("Passwords match.");
+    }
 
     function enterPassword() {
         console.log("Here I am dude! ");
@@ -86,7 +74,7 @@
         console.log("!!!!!!!!Here I am dude! ");
     }
 
-    $(document).ready(function(){
+    $(document).ready(function () {
 
         $(".verifyPortalClicked").hide();
 
@@ -94,16 +82,16 @@
             var currentPortal = $(this).attr("value").split("!-@!");
 
             var idOfSelecedButton = currentPortal[0];
-            $("#joinPortalButton" +  idOfSelecedButton).toggle('show');
+            $("#joinPortalButton" + idOfSelecedButton).toggle('show');
 
             var portalData = {
 
-                '_id' : currentPortal[0],
-                'PortalName' : currentPortal[1],
-                'PortalPassword' : currentPortal[2],
-                'TTL' : currentPortal[3],
-                'Message' : currentPortal[4],
-                'Count' : currentPortal[5]
+                '_id': currentPortal[0],
+                'PortalName': currentPortal[1],
+                'PortalPassword': currentPortal[2],
+                'TTL': currentPortal[3],
+                'Message': currentPortal[4],
+                'Count': currentPortal[5]
             };
 
             console.log("This is the check");
@@ -133,6 +121,35 @@
 
                         */
         });
+
+//        $("#txtConfirmPassword").onkeyup(function () {
+//            checkPasswordMatch();
+//        });
+
+//        $('#txtConfirmPassword').on('keyup', function() {
+//            checkPasswordMatch();
+//        });
+
+//        $("#txtConfirmPassword").keyup(function () {
+//            var password = $("#txtNewPassword").val();
+//            $("#divCheckPasswordMatch").html(password == $(this).val()
+//                    ? "Passwords match."
+//                    : "Passwords do not match!"
+//            );
+//        });
+
+        $('#txtConfirmPassword').on('keyup', function () {
+            console.log("Comes Here");
+            var password = $("#txtNewPassword").val();
+            $("#divCheckPasswordMatch").html(password == $(this).val()
+                    ? "Passwords match."
+                    : "Passwords do not match!"
+            );
+        });
+
+
+//        $("#txtConfirmPassword").onkeyup(checkPasswordMatch);
+
     });
 
 </script>
