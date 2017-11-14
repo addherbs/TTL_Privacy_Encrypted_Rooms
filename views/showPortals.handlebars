@@ -1,4 +1,5 @@
 <div id="site_content">
+    <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
     <div id="content">
 
         <h2 class="page-header"> List of all the Available Portals </h2>
@@ -29,16 +30,16 @@
                                     <input type="password" class="form-control" id="txtNewPassword" name="password"
                                            placeholder="Portal Password">
                                 </div>
+
                                 <div class="form-group">
                                     <label> Confirm Portal Password: </label>
                                     <input type="password" class="form-control" id="txtConfirmPassword" name="password"
-                                            placeholder="Confirm Portal Password">
+                                            placeholder="Confirm Portal Password" onChange="checkPasswordMatch();">
                                 </div>
 
-                                <div class="form-group registrationFormAlert" id="divCheckPasswordMatch"></div>
+                                <div class="form-group" id="divCheckPasswordMatch"> Passwords do not Match!</div>
 
-
-                                <button type="submit" class="btn btn-primary btn-lg round" onclick="enterPassword()"
+                                <button type="submit" class="btn btn-primary btn-lg round" onclick="enterPassword();"
                                         style="float: right;"> Submit
                                 </button>
                             </form>
@@ -72,11 +73,14 @@
         console.log("Here I am dude! ");
         console.log(this);
         console.log("!!!!!!!!Here I am dude! ");
+        return false;
     }
 
     $(document).ready(function () {
 
         $(".verifyPortalClicked").hide();
+
+        $("#txtConfirmPassword").keyup(checkPasswordMatch);
 
         $(".joinPortalButton").on("click", function () {
             var currentPortal = $(this).attr("value").split("!-@!");
@@ -138,14 +142,14 @@
 //            );
 //        });
 
-        $('#txtConfirmPassword').on('keyup', function () {
-            console.log("Comes Here");
-            var password = $("#txtNewPassword").val();
-            $("#divCheckPasswordMatch").html(password == $(this).val()
-                    ? "Passwords match."
-                    : "Passwords do not match!"
-            );
-        });
+//        $('#txtConfirmPassword').on('keyup', function () {
+//            console.log("Comes Here");
+//            var password = $("#txtNewPassword").val();
+//            $("#divCheckPasswordMatch").html(password == $(this).val()
+//                    ? "Passwords match."
+//                    : "Passwords do not match!"
+//            );
+//        });
 
 
 //        $("#txtConfirmPassword").onkeyup(checkPasswordMatch);
