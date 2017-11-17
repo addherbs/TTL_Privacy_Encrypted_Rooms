@@ -37,14 +37,14 @@ router.post('/clickedPortal', function (req,res) {
         "\nMessage:" + portalMessage );
     console.log('clickedPortal is ends');
     console.log('---------------------\n');
-try {
-    console.log('mkc bc execute ho');
-    res.send(str);
-    // res.redirect('/users/hereYourHaveClicked');
+    try {
+        console.log('mkc bc execute ho');
+        res.send(str);
+        // res.redirect('/users/hereYourHaveClicked');
 
-}catch(err){
-    console.log(err);
-}
+    }catch(err){
+        console.log(err);
+    }
 });
 
 // router.get('/hereYourHaveClicked', function (req,res) {
@@ -91,8 +91,8 @@ router.post('/refreshPortalList', function (req,res) {
 
 router.post('/eachPortalInputData', function (req,res) {
     console.log("reached eachPortalInputData");
-        var formData = req.body.formatDate();
-        console.log(formData);
+    var formData = req.body.formatDate();
+    console.log(formData);
 });
 
 
@@ -192,6 +192,32 @@ router.post('/register', function (req,res) {
 
         res.redirect('/users/login');
     }
+
+});
+
+router.post('/validatePortalJoinData', function (req,res) {
+
+    console.log('Validate Portal Begins===============');
+    var data = JSON.stringify(req.body);
+
+    var obj = JSON.parse(data);
+    var keys = Object.keys(obj);
+
+    var portalName = obj[keys[0]];
+    var portalPassword = obj[keys[1]];
+    var portalID = obj[keys[2]];
+    console.log('id: ' + portalID);
+    console.log('pass: ' + portalPassword);
+    console.log('name: ' + portalName);
+
+    var output = {
+        'portalName' : portalName,
+        'portalPassword': portalPassword,
+        'portalID': portalID
+    };
+
+    console.log('===============Validate Portal Ends');
+    res.send(output);
 
 });
 

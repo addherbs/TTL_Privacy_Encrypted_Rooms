@@ -45,7 +45,7 @@
 
                                 <p class="form-group" id="resultOfSubmit"> </p>
 
-                                <button type="button" class="btn btn-primary btn-lg round" onclick="checkFormFields('form!=!{{this.PortalName}}', '{{this._id}}');" style="float: right;"> Submit
+                                <button type="button" class="eachPortalButton btn btn-primary btn-lg round"  value="form!=!{{this.PortalName}}!$&$&$!{{this._id}}" style="float: right;"> Submit
                                 </button>
                             </form>
                         </div>
@@ -71,8 +71,7 @@
         return name1 === name2;
     }
 
-
-    function checkFormFields(getFormInput, getCurrentID){
+    function checkFormFields(getFormInput){
 
         var formName = getFormInput.split("form!=!")[1];
         var portalName = document.forms[getFormInput].elements["pname"].value;
@@ -83,6 +82,8 @@
         var checkPasswords = comparePasswords(portalPasswordEntered, confirmPortalPasswordEntered);
         var checkNames= portalNames(formName, portalName);
 
+//        console.log("formName: "+ formName + " portalName: "+ portalName  + " cpassword: " + portalPasswordEntered + " password: " + confirmPortalPasswordEntered);
+
         if (!checkNames){
             console.log("Names entered are not same");
             document.forms[getFormInput].elements["pname"].value = "";
@@ -92,9 +93,11 @@
             document.getElementById(labelID).removeAttribute("readonly");
             document.forms[getFormInput].elements["resultOfForm"].value = "Names do not match";
             document.getElementById(labelID).setAttribute("readonly", true);
+            return false;
         }
 
         if (!checkPasswords){
+            console.log("Passwords entered are not same");
             document.forms[getFormInput].elements["pname"].value = "";
             document.forms[getFormInput].elements["password"].value = "";
             document.forms[getFormInput].elements["cpassword"].value = "";
@@ -102,16 +105,17 @@
             document.getElementById(labelID).removeAttribute("readonly");
             document.forms[getFormInput].elements["resultOfForm"].value = "Password and Confirm Password do not match";
             document.getElementById(labelID).setAttribute("readonly", true);
+            return false;
         }
 
         if (checkPasswords && checkNames){
             console.log("Everything is correct!! Redirect it to the next page");
+            return portalPasswordEntered;
         }
 
     }
 
     $(document).ready(function () {
-
         $(".verifyPortalClicked").hide();
 
         $(".joinPortalButton").on("click", function () {
@@ -119,72 +123,44 @@
 
             var idOfSelecedButton = currentPortal[0];
             $("#joinPortalButton" + idOfSelecedButton).toggle('show');
-
-            var portalData = {
-
-                '_id': currentPortal[0],
-                'PortalName': currentPortal[1],
-                'PortalPassword': currentPortal[2],
-                'TTL': currentPortal[3],
-                'Message': currentPortal[4],
-                'Count': currentPortal[5]
-            };
-
-            console.log(JSON.parse(JSON.stringify(portalData)));
-
-            //$(this).next("#verifyPortalClicked").toggle(500);
-
-            /*
-                        $.ajax({
-                            type: 'POST',
-                            data: JSON.stringify(portalData),
-                            dataType: 'json',
-                            url: '/users/clickedPortal'
-                        }).done( function (data) {
-                            console.log("done check me begins");
-                            console.log(data);
-                            console.log("success");
-                            console.log("done check me begins");
-            //              console.log(value);
-                        }).fail(function (error) {
-                            console.log("check me begins");
-                            console.log(error);
-                            console.log("check me ends");
-                            console.log("failed");
-                        })
-
-
-                        */
         });
 
-//        $("#txtConfirmPassword").onkeyup(function () {
-//            checkPasswordMatch();
-//        });
+        $(".eachPortalButton").on("click", function () {
+            var currentPortalForm = $(this).attr("value").split('!$&$&$!');
+//            console.log(currentPortalForm);
 
-//        $('#txtConfirmPassword').on('keyup', function() {
-//            checkPasswordMatch();
-//        });
+            var returnFrontVerification =  checkFormFields(currentPortalForm[0]);
+//            console.log(returnFrontVerification);
 
-//        $("#txtConfirmPassword").keyup(function () {
-//            var password = $("#txtNewPassword").val();
-//            $("#divCheckPasswordMatch").html(password == $(this).val()
-//                    ? "Passwords match."
-//                    : "Passwords do not match!"
-//            );
-//        });
+            if (returnFrontVerification){
 
-//        $('#txtConfirmPassword').on('keyup', function () {
-//            console.log("Comes Here");
-//            var password = $("#txtNewPassword").val();
-//            $("#divCheckPasswordMatch").html(password == $(this).val()
-//                    ? "Passwords match."
-//                    : "Passwords do not match!"
-//            );
-//        });
+                var data = {
+                    'portalName' : currentPortalForm[0].split("form!=!")[1],
+                    'portalPassword': returnFrontVerification,
+                    'portalID': currentPortalForm[1]
+                };
 
+//                console.log(data);
 
-//        $("#txtConfirmPassword").onkeyup(checkPasswordMatch);
-
+                $.ajax({
+                    type: 'POST',
+                    data: data,
+                    dataType:'json',
+                    url: '/users/validatePortalJoinData'
+                }).done( function (data) {
+                    console.log("Success begins");
+                    console.log(data);
+                    console.log("Success ends");
+                }).fail(function (error) {
+                    console.log("Error begins");
+                    console.log(error);
+                    console.log("Error ends");
+                })
+            }else {
+                console.log("Something went wrong!");
+            }
+        });
     });
+
 
 </script>
