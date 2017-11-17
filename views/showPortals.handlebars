@@ -33,13 +33,19 @@
 
                                 <div class="form-group">
                                     <label> Confirm Portal Password: </label>
-                                    <input type="password" class="form-control" id="txtConfirmPassword" onchange="checkPasswordMatch();" name="cpassword"
-                                            placeholder="Confirm Portal Password">
+                                    <input type="password" class="form-control" id="txtConfirmPassword" name="cpassword"
+                                           placeholder="Confirm Portal Password">
                                 </div>
 
-                                <div class="form-group" id="divCheckPasswordMatch"> Passwords do not Match!</div>
+                                <div class="form-group" >
+                                    <label> Result: </label>
+                                    <input type="text" class="form-control" id="#formLabel!=!{{this.PortalName}}" name="resultOfForm"
+                                           placeholder="Enter the Fields Above" readonly>
+                                </div>
 
-                                <button type="button" class="btn btn-primary btn-lg round" onclick="checkFormFields('form!=!{{this.PortalName}}');" style="float: right;"> Submit
+                                <p class="form-group" id="resultOfSubmit"> </p>
+
+                                <button type="button" class="btn btn-primary btn-lg round" onclick="checkFormFields('form!=!{{this.PortalName}}', '{{this._id}}');" style="float: right;"> Submit
                                 </button>
                             </form>
                         </div>
@@ -55,59 +61,58 @@
 </div>
 
 
-<script>
+<script type="text/javascript">
 
     function comparePasswords(pass1, pass2) {
-        console.log("ConfirmPassword method starts");
-        console.log("Password 1 is: " + pass1 );
-        console.log(" Password 2 is: " + pass2 );
         return pass1 === pass2;
     }
 
-    function checkFormFields(getInput){
-
-        console.log("Came to check form fields ");
-        console.log("input data is: "+ getInput);
-
-        var formName = getInput.split("form!=!")[1];
-        var portalName = document.forms[getInput].elements["pname"].value;
-        var portalPasswordEntered  = document.forms[getInput].elements["password"].value;
-        var confirmPortalPasswordEntered  = document.forms[getInput].elements["cpassword"].value;
-
-        console.log ("Entered From Form: " + formName);
-        console.log ("Entered portal name is: " + portalName);
-        console.log ("Entered password is: " + portalPasswordEntered);
-        console.log ("Entered confirm password is: " + confirmPortalPasswordEntered);
-
-        var checkPasswords = comparePasswords(portalPasswordEntered, confirmPortalPasswordEntered);
-
-        if (checkPasswords){
-            console.log("Passowrd entered are the same");
-        }else {
-            console.log("Passowrd entered are not same");
-        }
-
-        console.log("Leaving check form fields ");
+    function portalNames(name1, name2) {
+        return name1 === name2;
     }
 
-    function checkPasswordMatch(currentPortalName) {
-        var password = $(currentPortalName + "#txtNewPassword").val();
-        var confirmPassword = $(currentPortalName + "#txtConfirmPassword").val();
-        console.log(password);
-        console.log(confirmPassword);
 
-        if (password !== confirmPassword)
-            $("#divCheckPasswordMatch").html("Passwords do not match!");
-        else
-            $("#divCheckPasswordMatch").html("Passwords match.");
+    function checkFormFields(getFormInput, getCurrentID){
+
+        var formName = getFormInput.split("form!=!")[1];
+        var portalName = document.forms[getFormInput].elements["pname"].value;
+        var portalPasswordEntered  = document.forms[getFormInput].elements["password"].value;
+        var confirmPortalPasswordEntered  = document.forms[getFormInput].elements["cpassword"].value;
+        var labelID = "#formLabel!=!" +formName ;
+
+        var checkPasswords = comparePasswords(portalPasswordEntered, confirmPortalPasswordEntered);
+        var checkNames= portalNames(formName, portalName);
+
+        if (!checkNames){
+            console.log("Names entered are not same");
+            document.forms[getFormInput].elements["pname"].value = "";
+            document.forms[getFormInput].elements["password"].value = "";
+            document.forms[getFormInput].elements["cpassword"].value = "";
+
+            document.getElementById(labelID).removeAttribute("readonly");
+            document.forms[getFormInput].elements["resultOfForm"].value = "Names do not match";
+            document.getElementById(labelID).setAttribute("readonly", true);
+        }
+
+        if (!checkPasswords){
+            document.forms[getFormInput].elements["pname"].value = "";
+            document.forms[getFormInput].elements["password"].value = "";
+            document.forms[getFormInput].elements["cpassword"].value = "";
+
+            document.getElementById(labelID).removeAttribute("readonly");
+            document.forms[getFormInput].elements["resultOfForm"].value = "Password and Confirm Password do not match";
+            document.getElementById(labelID).setAttribute("readonly", true);
+        }
+
+        if (checkPasswords && checkNames){
+            console.log("Everything is correct!! Redirect it to the next page");
+        }
+
     }
 
     $(document).ready(function () {
 
         $(".verifyPortalClicked").hide();
-
-
-        $("#txtConfirmPassword").keyup(checkPasswordMatch);
 
         $(".joinPortalButton").on("click", function () {
             var currentPortal = $(this).attr("value").split("!-@!");
