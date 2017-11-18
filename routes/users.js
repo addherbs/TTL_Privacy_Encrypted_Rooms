@@ -206,15 +206,25 @@ router.post('/validatePortalJoinData', function (req,res) {
     var portalName = obj[keys[0]];
     var portalPassword = obj[keys[1]];
     var portalID = obj[keys[2]];
-    console.log('id: ' + portalID);
-    console.log('pass: ' + portalPassword);
-    console.log('name: ' + portalName);
+    // console.log('id: ' + portalID);
+    // console.log('pass: ' + portalPassword);
+    // console.log('name: ' + portalName);
 
     var output = {
         'portalName' : portalName,
         'portalPassword': portalPassword,
         'portalID': portalID
     };
+
+    var portalIdToBeSent = "ObjectId(" + portalID + ")";
+    Portal.getPortalByID({
+        "_id" : portalIdToBeSent
+    }, function(err, portal){
+        if (err) throw err;
+        console.log("We got success!");
+        console.log(portal);
+        console.log("Success ends");
+    });
 
     console.log('===============Validate Portal Ends');
     res.send(output);
@@ -251,8 +261,6 @@ passport.deserializeUser(function (id, done) {
         done(err, user);
     });
 });
-
-
 
 
 router.post('/login',
