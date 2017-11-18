@@ -1,19 +1,36 @@
 <div id="site_content">
-	  <div id="content">
+    <div id="content">
 
-   <h1>
-    Welcome to the dashboard, {{user.UserName}} </h1>
+        <h1>
+            Welcome to the dashboard, {{user.UserName}} </h1>
 
-<form method="post" action="/users/twoButton">
+        <form method="post" action="/users/twoButton">
 
-    <div class="form-group" id="twoButton" name="twoButton">
-            <button name="createPortal" class="btn btn-primary btn-lg round">Create Portal</button>
-		 
-            <button name="showPortal" class="btn btn-primary btn-lg round">Show Portals</button>
-			
+            <div class="form-group" id="twoButton" name="twoButton">
+                <li>  <button name="createPortal" class="btn btn-primary btn-lg round">Create A New Portal</button> </li>
+                <br>
+                <br>
+                <li> <button name="showPortal" class="btn btn-primary btn-lg round">Show All Available Portals</button> </li>
+                <br>
 
+            </div>
+
+        </form>
+        <li> <button name="checkPortals" id="checkPortals" class="btn btn-primary btn-lg round">Check Your Portals</button> </li>
     </div>
+</div>
 
-</form>
-</div>
-</div>
+<script type="text/javascript">
+
+
+    $(document).ready(function () {
+
+        $("#checkPortals").on('click', function (
+        ) {
+            console.log("hey");
+        });
+
+    });
+
+
+</script>
