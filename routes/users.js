@@ -47,11 +47,6 @@ router.post('/clickedPortal', function (req,res) {
     }
 });
 
-// router.get('/hereYourHaveClicked', function (req,res) {
-//
-//     res.render('lol');
-// });
-
 
 // verify which button is pressed
 router.post('/twoButton', function (req,res) {
@@ -65,17 +60,28 @@ router.post('/twoButton', function (req,res) {
 
         Portal.getPortals(function(err, portals){
             if (err) throw err;
-            var listOfAllPortals = portals;
-
+            var listOfAllPortals;
+            listOfAllPortals = portals;
             // console.log("Check starts ------------------");
             // //console.log(listOfAllPortals);
             // console.log("Check Ends ------------------");
-
             res.render('showPortals', {portals:listOfAllPortals});
         });
 
     }
 });
+
+
+function getPortalsFromUserID(userID) {
+    var portalData;
+    Portal.getPortals(function(err, portals){
+        if (err) throw err;
+
+        portalData = portals;
+    });
+
+    return portalData;
+}
 
 
 // refresh button which button is pressed
@@ -105,6 +111,11 @@ router.post('/createPortal', function (req,res) {
     var secs = req.body.secs;
     var message = req.body.message;
     var count = req.body.count;
+    var owner_id = req.body.owner_id;
+
+    console.log("Testing Owner ID");
+    console.log(owner_id);
+    console.log("Testing Owner ID");
 
     var cpPassword = req.body.cpPassword;
 
@@ -128,7 +139,8 @@ router.post('/createPortal', function (req,res) {
         PortalPassword: pPassword,
         TTL: ttl,
         Message: message,
-        Count: count
+        Count: count,
+        Owner_ID: owner_id
     };
 
     var errors= req.validationErrors();
@@ -150,7 +162,6 @@ router.post('/createPortal', function (req,res) {
     }
 
 });
-
 
 router.post('/register', function (req,res) {
 
