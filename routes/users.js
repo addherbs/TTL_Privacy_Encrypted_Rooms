@@ -67,21 +67,52 @@ router.post('/twoButton', function (req,res) {
             // console.log("Check Ends ------------------");
             res.render('showPortals', {portals:listOfAllPortals});
         });
-
     }
 });
 
+router.post('/generatePortalsByID', function (req, res) {
 
-function getPortalsFromUserID(userID) {
-    var portalData;
-    Portal.getPortals(function(err, portals){
+    var data = JSON.stringify(req.body);
+
+    var obj = JSON.parse(data);
+    var keys = Object.keys(obj);
+    var check = keys[0];
+
+    Portal.getPortals(function (err, portals) {
+        var finalPortals = {};
         if (err) throw err;
+        for (var key in portals) {
+            if (portals.hasOwnProperty(key)) {
+                if (check === portals[key].Owner_ID) {
+                    finalPortals[portals[key]] = "";
+                }
+            }
+        }
+        console.log("lol2");
+        console.log(finalPortals);
+        console.log("lol2");
 
-        portalData = portals;
+        res.send(finalPortals);
     });
-
-    return portalData;
-}
+});
+// function getPortalsFromUserID(userID) {
+//
+//     Portal.getPortals(function(err, portals){
+//         var finalPortals = {};
+//         if (err) throw err;
+//         for (var key in portals) {
+//             if (portals.hasOwnProperty(key)) {
+//                 if (userID === portals[key].Owner_ID){
+//                     finalPortals[portals[key]] = "";
+//                 }
+//             }
+//         }
+//         console.log("lol2");
+//         console.log(finalPortals);
+//         console.log("lol2");
+//         return (finalPortals);
+//     });
+// }
 
 
 // refresh button which button is pressed
@@ -113,16 +144,11 @@ router.post('/createPortal', function (req,res) {
     var count = req.body.count;
     var owner_id = req.body.owner_id;
 
-    console.log("Testing Owner ID");
-    console.log(owner_id);
-    console.log("Testing Owner ID");
-
     var cpPassword = req.body.cpPassword;
 
     var ttl = hours*3600 + mins*60 + secs;
     console.log("Portal Name:"+ pName + "\nPortal Password:"+pPassword +"\nHours-Mins-Secs: "+ hours +"-" +mins+ "-"+ secs +
         "\nMessage:" + message + "\nTotal TTL: "+ ttl + "\t count: " + count);
-
 
     //Validation of form
     req.checkBody('pName', 'Portal Name is required').notEmpty();
