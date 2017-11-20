@@ -3,6 +3,10 @@
 
         <h1>
             Welcome to the dashboard, {{user.UserName}} </h1>
+        <p>
+            Testing!! <br>
+            {{user._id}}
+        </p>
 
         <form method="post" action="/users/twoButton">
 
@@ -17,20 +21,85 @@
 
         </form>
         <li> <button name="checkPortals" id="checkPortals" class="btn btn-primary btn-lg round">Check Your Portals</button> </li>
+
     </div>
+    <br>
+    <br>
+
+    <div class="DisplayYourPortals" id="statusContainer">
+        Hey Man, Here I will display all the portals by this user
+    </div>
+
+
+
 </div>
 
 <script type="text/javascript">
+
+    var statusContainer = document.getElementById("statusContainer");
+    function populateDIV(portals) {
+        statusContainer.innerHTML = "";
+
+        var htmlString = "<ul>";
+        for (var i = 0; i < portals.length; i++) {
+            console.log("KEY!!");
+            htmlString += "<li>";
+            htmlString += "<ul>";
+
+            htmlString += "<li> Name: " + portals[i].PortalName + "</li>";
+            htmlString += "<li> Count : " + portals[i].Count + "</li>";
+            htmlString += "<li> TTL : " + portals[i].TTL + "</li>";
+
+            htmlString += "</ul>";
+            htmlString += "</li>";
+        }
+        htmlString += "</ul>";
+
+        statusContainer.insertAdjacentHTML('beforeend', htmlString);
+    }
 
 
     $(document).ready(function () {
 
         $("#checkPortals").on('click', function (
         ) {
-            console.log("hey");
+            $(".DisplayYourPortals").toggle('show');
+
+            var current_user_id;
+            current_user_id = "{{user._id}}";
+
+            $.ajax({
+                type: 'POST',
+                data: current_user_id ,
+                dataType:'json',
+                url: '/users/generatePortalsByID'
+            }).done( function (portals) {
+                var portalArray = [];
+                console.log("testing begins");
+//                alert(portals);
+                console.log("testing ends");
+//                portals = JSON.parse(portals);
+//                console.log(portals);
+                console.log("Success begins");
+//                for (var key in portals) {
+//                    if (portals.hasOwnProperty(key)) {
+//                        portalArray.push(key);
+//                    }
+//                }
+                populateDIV(portals);
+                console.log("Success ends");
+            }).fail(function (error) {
+                console.log("Error begins");
+                console.log(error);
+                console.log("Error ends");
+            })
+
+
+
+
         });
 
-    });
 
+    });
 
 </script>
