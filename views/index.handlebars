@@ -20,14 +20,14 @@
             </div>
 
         </form>
-        <li> <button name="checkPortals" id="checkPortals" class="btn btn-primary btn-lg round">Check Your Portals</button> </li>
+        <li> <button name="checkPortals" id="checkPortals" class="btn btn-primary btn-lg round">Show Your Portal Information</button> </li>
 
     </div>
     <br>
     <br>
 
     <div class="DisplayYourPortals" id="statusContainer">
-        Hey Man, Here I will display all the portals by this user
+
     </div>
 
 
@@ -37,6 +37,14 @@
 <script type="text/javascript">
 
     var statusContainer = document.getElementById("statusContainer");
+    var checkPortals = document.getElementById("checkPortals");
+
+    var isVisible;
+    var isHidden;
+
+    var idCheckPortals = "#checkPortals";
+    var classDisplayYourPortals = ".DisplayYourPortals";
+
     function populateDIV(portals) {
         statusContainer.innerHTML = "";
 
@@ -58,12 +66,21 @@
         statusContainer.insertAdjacentHTML('beforeend', htmlString);
     }
 
-
     $(document).ready(function () {
 
-        $("#checkPortals").on('click', function (
+        $(classDisplayYourPortals).hide();
+        $(idCheckPortals).on('click', function (
         ) {
-            $(".DisplayYourPortals").toggle('show');
+            isVisible = $(classDisplayYourPortals).is( ":visible" );
+            isHidden = $( classDisplayYourPortals).is( ":hidden" );
+            $(classDisplayYourPortals).toggle('show');
+
+            if (isHidden) {
+                checkPortals.innerHTML = "Hide Information";
+            }
+            if (isVisible){
+                 checkPortals.innerHTML = "Show Your Portal Information";
+            }
 
             var current_user_id;
             current_user_id = "{{user._id}}";
@@ -74,28 +91,14 @@
                 dataType:'json',
                 url: '/users/generatePortalsByID'
             }).done( function (portals) {
-                var portalArray = [];
-                console.log("testing begins");
-//                alert(portals);
-                console.log("testing ends");
-//                portals = JSON.parse(portals);
-//                console.log(portals);
-                console.log("Success begins");
-//                for (var key in portals) {
-//                    if (portals.hasOwnProperty(key)) {
-//                        portalArray.push(key);
-//                    }
-//                }
+                console.log("Success Method");
                 populateDIV(portals);
-                console.log("Success ends");
+
             }).fail(function (error) {
-                console.log("Error begins");
+                console.log("Error Method");
                 console.log(error);
-                console.log("Error ends");
+
             })
-
-
-
 
         });
 
