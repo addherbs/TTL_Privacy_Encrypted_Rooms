@@ -79,12 +79,20 @@ router.post('/generatePortalsByID', function (req, res) {
     var check = keys[0];
 
     Portal.getPortals(function (err, portals) {
-        var finalPortals = {};
+        var finalPortals = [];
         if (err) throw err;
         for (var key in portals) {
             if (portals.hasOwnProperty(key)) {
                 if (check === portals[key].Owner_ID) {
-                    finalPortals[portals[key]] = "";
+                    // var currentPortal = portals[key];
+                    // console.log(portals[key]);
+                    // var temp = {
+                    //     PortalName: currentPortal.PortalName,
+                    //     TTL: currentPortal.TTL,
+                    //     Message: currentPortal.Message,
+                    //     Count: currentPortal.Count
+                    // };
+                    finalPortals.push(portals[key]);
                 }
             }
         }
@@ -92,7 +100,7 @@ router.post('/generatePortalsByID', function (req, res) {
         console.log(finalPortals);
         console.log("lol2");
 
-        res.send(finalPortals);
+        res.send(JSON.stringify(finalPortals));
     });
 });
 // function getPortalsFromUserID(userID) {
