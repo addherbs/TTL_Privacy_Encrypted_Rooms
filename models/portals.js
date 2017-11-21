@@ -63,31 +63,20 @@ module.exports.getPortals = function (callback) {
     });
 };
 
-
-// module.exports.getPortalByID = function (id,callback) {
-//     //Get a portal with a specific id, if not, error is returned
-//     db.collection('portals').find(
-//         id //This is the object in json format..
-//         , function (err, result) {
-//             assert.equal(err, null);
-//             console.log("Got the document");
-//             console.log(result);
-//             callback(result);
-//         });
-// };
-
-module.exports.getPortalByID = function (id,callback) {
-
-    db.collection('portals', function (err, collection) {
-        if (!err) {
-            collection.find(
-                id
-            ).toArray(function(err, docs) {
-                if (!err) {
-                    console.log("No error while retrieving ");
-                    console.log(docs);
-                    callback(docs);
-                }});
+module.exports.comparePassword= function(portalPassword,hash, callback){
+    bcrypt.compare(portalPassword, hash, function(err, isMatch){
+        if(err) {
+            console.log(portalPassword);
+            console.log(isMatch);
+            throw err;
         }
+        console.log("Portal Found 12345");
+        callback(null, isMatch);
     });
+};
+
+module.exports.getPortalByPortalID= function(portalID,callback){
+    var query={ _id : portalID};
+    Portal.findOne(query, callback);
+    console.log("Portal Found");
 };
