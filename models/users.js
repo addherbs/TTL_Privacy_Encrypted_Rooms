@@ -49,4 +49,3 @@ module.exports.getUserByUsername= function(username,callback){
 module.exports.getUserById= function(id,callback){
     User.findById(id, callback);
 };
-

@@ -8,6 +8,11 @@
         </form>
         <br>
         <br>
+        <p>
+            Testing!! <br>
+            {{user._id}}
+        </p>
+
 
         <ul>
             <ul>
@@ -137,7 +142,8 @@
                 var data = {
                     'portalName' : currentPortalForm[0].split("form!=!")[1],
                     'portalPassword': returnFrontVerification,
-                    'portalID': currentPortalForm[1]
+                    'portalID': currentPortalForm[1],
+                    'user_id': "{{user._id}}"
                 };
 
                 $.ajax({
