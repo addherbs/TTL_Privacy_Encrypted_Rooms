@@ -58,15 +58,17 @@ module.exports.getPortals = function (callback) {
             callback(err);
         }
         assert.equal(null, err);
-
         callback(null, results);
     });
 };
 
 module.exports.comparePassword= function(portalPassword,hash, callback){
     bcrypt.compare(portalPassword, hash, function(err, isMatch){
+        console.log("Into the compare passwords");
+        console.log("portal password: "+ portalPassword);
+        console.log("hash:  "+hash);
         if(err) {
-            console.log(portalPassword);
+            console.log("Compare methods with error !!!");
             console.log(isMatch);
             throw err;
         }
@@ -76,7 +78,12 @@ module.exports.comparePassword= function(portalPassword,hash, callback){
 };
 
 module.exports.getPortalByPortalID= function(portalID,callback){
-    var query={ _id : portalID};
-    Portal.findOne(query, callback);
-    console.log("Portal Found");
+    console.log("Into the getPortalByPortalID "+ portalID);
+    var query   =   {
+        _id : portalID
+    };
+    console.log("This is the query )" );
+    console.log(query);
+    console.log("================================");
+    db.collection('portals').find(query, callback);
 };
