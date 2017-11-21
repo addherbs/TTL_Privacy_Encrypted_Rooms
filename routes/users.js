@@ -96,31 +96,11 @@ router.post('/generatePortalsByID', function (req, res) {
                 }
             }
         }
-        console.log("lol2");
-        console.log(finalPortals);
-        console.log("lol2");
 
         res.send(JSON.stringify(finalPortals));
     });
 });
-// function getPortalsFromUserID(userID) {
-//
-//     Portal.getPortals(function(err, portals){
-//         var finalPortals = {};
-//         if (err) throw err;
-//         for (var key in portals) {
-//             if (portals.hasOwnProperty(key)) {
-//                 if (userID === portals[key].Owner_ID){
-//                     finalPortals[portals[key]] = "";
-//                 }
-//             }
-//         }
-//         console.log("lol2");
-//         console.log(finalPortals);
-//         console.log("lol2");
-//         return (finalPortals);
-//     });
-// }
+
 
 
 // refresh button which button is pressed
@@ -234,7 +214,6 @@ router.post('/register', function (req,res) {
         });
 
         req.flash('success_msg', 'You are now registered.. Login to continue');
-
         res.redirect('/users/login');
     }
 
@@ -251,31 +230,73 @@ router.post('/validatePortalJoinData', function (req,res) {
     var portalName = obj[keys[0]];
     var portalPassword = obj[keys[1]];
     var portalID = obj[keys[2]];
+    var user_id = obj[keys[3]];
+
+    // portalID =  'ObjectId("' + portalID + '")';
+
+    var returnValue = validatePortalOpen(portalID, portalPassword);
+
+    if (returnValue){
+        console.log("Portal data is returned");
+        var output = {
+            'portalName' : portalName,
+            'portalPassword': portalPassword,
+            'portalID': portalID,
+            'user_id': user_id
+        };
+    }
+
     // console.log('id: ' + portalID);
     // console.log('pass: ' + portalPassword);
     // console.log('name: ' + portalName);
-
-    var output = {
-        'portalName' : portalName,
-        'portalPassword': portalPassword,
-        'portalID': portalID
-    };
-
-    var portalIdToBeSent = "ObjectId(" + portalID + ")";
-    Portal.getPortalByID({
-        "_id" : portalIdToBeSent
-    }, function(err, portal){
-        if (err) throw err;
-        console.log("We got success!");
-        console.log(portal);
-        console.log("Success ends");
-    });
+    // console.log('user_id: ' + user_id);
 
     console.log('===============Validate Portal Ends');
     res.send(output);
 
 });
 
+
+function validatePortalOpen(portalID, portalPassword, done) {
+
+
+    Portal.getPortals(function(err, portals){
+        if (err) throw err;
+        console.log("================================");
+
+        portals = portals.filter(function (portal) {
+            return ( portal._id ).toString() === (portalID);
+        });
+
+    // Portal.getPortalByPortalID(portalID, function (err, portal) {
+    //     if (err){
+    //         console.log("Error came");
+    //         throw err;
+    //     }
+    //     if (!portal) {
+    //         return done(null, false, { message: 'Unknown user' });
+    //     }
+        console.log("================================");
+        console.log(portals);
+        console.log("================================");
+        console.log("portal passworrd: "+ portalPassword);
+        console.log("hash:  "+portals[0].PortalPassword);
+        Portal.comparePassword(portalPassword, portals[0].PortalPassword, function (err, isMatch) {
+            if (err) {
+                console.log("Exception");
+                throw err;
+            }
+            if (isMatch) {
+                console.log("Match done!!!");
+                return done ( null, portal );
+            }
+            else {
+                console.log("Wrong match");
+                return done(null, false, { message: 'Invalid password' });
+            }
+        });
+    });
+}
 
 passport.use(new LocalStrategy(
     function (username, password, done) {
@@ -317,9 +338,7 @@ router.post('/login',
 
 router.get('/logout', function (req,res) {
     req.logOut();
-
     req.flash('success_msg', 'You are logged out');
-
     res.redirect('/users/login');
 });
 
