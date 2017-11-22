@@ -220,6 +220,41 @@ router.post('/register', function (req,res) {
 });
 
 
+
+
+
+
+
+
+router.post('/checkDates', function (req,res) {
+
+    var test = new Date();
+    console.log(test);
+    test.setSeconds(test.getSeconds() + 120);
+    console.log(test);
+    var check = {
+        PortalName : "sal",
+        Message : "sal"
+    };
+    var data = {
+        $set :{
+            "expireAt": new Date(test)
+        }
+    };
+
+    Portal.updatePortalByID(check,data, function (err, result) {
+        if (err) {
+            console.log("Error while =======: ", err);
+        }
+        if (result){
+            console.log("Success while =======: ", result);
+        }
+    });
+
+    res.send("yo");
+});
+
+/*
 router.post('/checkUpdate', function (req,res) {
 
     var portalID = "5a11a3885363fa51343cdb8c";
@@ -250,7 +285,7 @@ router.post('/checkUpdate', function (req,res) {
         }
     });
 });
-
+*/
 
 router.post('/validatePortalJoinData', function (req,res) {
 
