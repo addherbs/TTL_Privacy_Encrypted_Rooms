@@ -126,7 +126,7 @@ router.post('/createPortal', function (req,res) {
     var pName = req.body.pName;
     var pPassword = req.body.pPassword;
     var hours = req.body.hours;
-    var mins = req.body.mins;
+    var minutes = req.body.mins;
     var secs = req.body.secs;
     var message = req.body.message;
     var count = req.body.count;
@@ -134,9 +134,16 @@ router.post('/createPortal', function (req,res) {
 
     var cpPassword = req.body.cpPassword;
 
-    var ttl = hours*3600 + mins*60 + secs;
-    console.log("Portal Name:"+ pName + "\nPortal Password:"+pPassword +"\nHours-Mins-Secs: "+ hours +"-" +mins+ "-"+ secs +
+    var ttl = parseInt(hours*3600) + parseInt(minutes*60) + parseInt(secs);
+    console.log("ttl: ", ttl);
+
+    console.log("Portal Name:"+ pName + "\nPortal Password:"+pPassword +"\nHours-Mins-Secs: "+ hours +"-" +minutes+ "-"+ secs +
         "\nMessage:" + message + "\nTotal TTL: "+ ttl + "\t count: " + count);
+
+    var currentDate = new Date();
+    console.log("Current Date is: ", currentDate);
+    currentDate.setSeconds(currentDate.getSeconds() + ttl);
+    console.log("Current Date is: ", currentDate);
 
     //Validation of form
     req.checkBody('pName', 'Portal Name is required').notEmpty();
@@ -148,13 +155,15 @@ router.post('/createPortal', function (req,res) {
     req.checkBody('count', 'You have to enter open count/ Atleast 1').notEmpty();
     req.checkBody('cpPassword', 'Confirm Portal Password should match Portal Password').notEmpty().equals(req.body.pPassword);
 
+
     var portalData = {
         PortalName: pName,
         PortalPassword: pPassword,
         TTL: ttl,
         Message: message,
         Count: count,
-        Owner_ID: owner_id
+        Owner_ID: owner_id,
+        expireAt: new Date(currentDate)
     };
 
     var errors= req.validationErrors();
