@@ -219,10 +219,46 @@ router.post('/register', function (req,res) {
 
 });
 
+
+router.post('/checkUpdate', function (req,res) {
+
+    var portalID = "5a11a3885363fa51343cdb8c";
+    var check = {
+        PortalName : "lol",
+        Message : "lol"
+    };
+
+    var data = {
+        $set :{
+            PortalName : "lol1",
+            PortalPassword : "$2a$10$w.IEAt0NO1jSdXNfw5XWx.Fsaee/h9BHfDaz8ov0XX680tb7VYm9a",
+            TTL : 13,
+            Message : "lol",
+            Count : 5,
+            Owner_ID : "59b10cd8b14c7f20d44f9884"
+        }
+    };
+
+    Portal.updatePortalByID(check,data, function (err, result) {
+        if (err) {
+            console.log(err);
+            console.log("updatePortalByID Error");
+        }
+        if (result){
+            console.log(result);
+            console.log("updatePortalByID Updated");
+        }
+    });
+});
+
+
 router.post('/validatePortalJoinData', function (req,res) {
 
     console.log('Validate Portal Begins===============');
     var data = JSON.stringify(req.body);
+    var output = {
+
+    };
 
     var obj = JSON.parse(data);
     var keys = Object.keys(obj);
@@ -240,21 +276,99 @@ router.post('/validatePortalJoinData', function (req,res) {
             res.send(err);
         }else {
             console.log("Portal data is returned");
-            console.log(returnValue);
-            var output = {
+
+            updateCount(returnValue, function (err, updatedCount) {
+                if (err) {
+                    console.log(err);
+                    console.log("UpdateCount Error");
+                }if(updatedCount){
+                    console.log('Update Count Success');
+
+                    checkCountIfZero(returnValue, function (err, returnResult) {
+
+                    });
+
+
+                }
+            });
+
+            console.log('===============Validate Portal Ends');
+            output = {
                 'portalName' : returnValue.PortalName,
                 'portalID': returnValue._id,
                 'owner_id': returnValue.Owner_ID,
                 'TTL': returnValue.TTL,
                 'Message': returnValue.Message
             };
-            console.log('===============Validate Portal Ends');
             res.send(output);
         }
 
     });
 });
 
+function checkCountIfZero(getResult, callback) {
+
+    console.log("Starting the checkCountIfZero");
+    console.log(getResult);
+
+    if(getResult.Count - 1 === 0 ){
+        console.log("Updated Count has reached 0");
+        console.log("We have to delete the portal since the count is reached 0")
+
+        var check = {
+            PortalName : getResult.PortalName,
+            Message : getResult.Message
+        };
+        Portal.removePortal(check, function (err, returnRes) {
+
+            if (err){
+                console.log("Couldn't Delete the file");
+            }
+            if(returnRes){
+                console.log("Portal Deleted yaaaayyyyy");
+            }
+
+
+
+        });
+
+    }else{
+        console.log("Updated Count is not 0");
+
+    }
+    console.log("Ending the checkCountIfZero");
+}
+
+
+function updateCount(currentPortal, callback) {
+
+    console.log(currentPortal);
+    var currentPortalCount = currentPortal.Count -1;
+    console.log(currentPortalCount);
+
+    var check = {
+        PortalName : currentPortal.PortalName,
+        Message : currentPortal.Message
+    };
+
+    var data = {
+        $set :{
+            Count: currentPortalCount
+        }
+    };
+
+    Portal.updatePortalByID(check,data, function (err, result) {
+        if (err) {
+            console.log("Error while updating count: ", err);
+            callback("Error while updating count: ");
+        }
+        if (result){
+            console.log("Success while updating count: ", result);
+            callback(null, result);
+        }
+    });
+
+}
 
 function validatePortalOpen(portalID, portalPassword, callback) {
 
