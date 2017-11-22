@@ -41,6 +41,7 @@
 
     var isVisible;
     var isHidden;
+    var msMinute = 60*1000, msDay = 60*60*24*1000;
 
     var idCheckPortals = "#checkPortals";
     var classDisplayYourPortals = ".DisplayYourPortals";
@@ -51,12 +52,21 @@
         var htmlString = "<ul>";
         for (var i = 0; i < portals.length; i++) {
             console.log("KEY!!");
+            console.log(portals[i]);
+
+            var a = new Date(portals[i].expireAt);
+            var b = new Date(portals[i].createdAt);
+
+//            console.log(Math.floor(((a - b) % msDay) / msMinute) + ' full minutes between');
+            var finalDate = Math.floor(((a - b) % msDay) / msMinute) + ' full minutes <u>LEFT</u> to expire';
+            console.log(finalDate);
+
             htmlString += "<li>";
             htmlString += "<ul>";
 
-            htmlString += "<li> Name: " + portals[i].PortalName + "</li>";
-            htmlString += "<li> Count : " + portals[i].Count + "</li>";
-            htmlString += "<li> TTL : " + portals[i].TTL + "</li>";
+            htmlString += "<li> Portal Name: " + portals[i].PortalName + "</li>";
+            htmlString += "<li> Count : " + portals[i].Count + ' Portal Open Counts <u>LEFT</u>' + "</li>";
+            htmlString += "<li> TTL : " + finalDate + "</li>";
 
             htmlString += "</ul>";
             htmlString += "</li>";
@@ -79,7 +89,7 @@
                 checkPortals.innerHTML = "Hide Information";
             }
             if (isVisible){
-                 checkPortals.innerHTML = "Show Your Portal Information";
+                checkPortals.innerHTML = "Show Your Portal Information";
             }
 
             var current_user_id;
