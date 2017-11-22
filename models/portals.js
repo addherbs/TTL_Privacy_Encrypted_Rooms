@@ -32,7 +32,8 @@ var PortalSchema = mongoose.Schema({
     },
     expireAt: {
         type: Date, default: undefined
-    }
+    },
+    Viewed: []
 });
 
 PortalSchema.index({ "expireAt": 1 }, { expireAfterSeconds: 0 });
