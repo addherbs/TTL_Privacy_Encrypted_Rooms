@@ -26,8 +26,16 @@ var PortalSchema = mongoose.Schema({
     },
     Owner_ID: {
         type: String
+    },
+    createdAt:  {
+        type: Date, default: Date.now
+    },
+    expireAt: {
+        type: Date, default: undefined
     }
 });
+
+PortalSchema.index({ "expireAt": 1 }, { expireAfterSeconds: 0 });
 
 var Portal = module.exports = mongoose.model('Portal', PortalSchema);
 
