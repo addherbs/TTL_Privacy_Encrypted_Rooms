@@ -97,6 +97,8 @@ router.post('/generatePortalsByID', function (req, res) {
             }
         }
 
+        console.log(finalPortals);
+
         res.send(JSON.stringify(finalPortals));
     });
 });
@@ -228,13 +230,7 @@ router.post('/register', function (req,res) {
 
 });
 
-
-
-
-
-
-
-
+/*
 router.post('/checkDates', function (req,res) {
 
     var test = new Date();
@@ -262,7 +258,7 @@ router.post('/checkDates', function (req,res) {
 
     res.send("yo");
 });
-
+*/
 /*
 router.post('/checkUpdate', function (req,res) {
 
@@ -321,7 +317,7 @@ router.post('/validatePortalJoinData', function (req,res) {
         }else {
             console.log("Portal data is returned");
 
-            updateCount(returnValue, function (err, updatedCount) {
+            updateCount(returnValue, user_id, function (err, updatedCount) {
                 if (err) {
                     console.log(err);
                     console.log("UpdateCount Error");
@@ -349,7 +345,6 @@ router.post('/validatePortalJoinData', function (req,res) {
             };
             res.send(output);
         }
-
     });
 });
 
@@ -360,7 +355,6 @@ function checkCountIfZero(getResult, callback) {
     if(getResult.Count - 1 === 0 ){
         console.log("Updated Count has reached 0");
         console.log("We have to delete the portal since the count is reached 0");
-
         var check = {
             PortalName : getResult.PortalName,
             Message : getResult.Message
@@ -384,20 +378,23 @@ function checkCountIfZero(getResult, callback) {
 }
 
 
-function updateCount(currentPortal, callback) {
+function updateCount(currentPortal, user_id, callback) {
 
     console.log(currentPortal);
     var currentPortalCount = currentPortal.Count -1;
     console.log(currentPortalCount);
 
+    var viewed = currentPortal.Viewed;
+    viewed.push(user_id);
+
     var check = {
         PortalName : currentPortal.PortalName,
         Message : currentPortal.Message
     };
-
     var data = {
         $set :{
-            Count: currentPortalCount
+            Count: currentPortalCount,
+            Viewed: viewed
         }
     };
 
