@@ -28,7 +28,7 @@
                             <form id="eachPortalInputData" name="form!=!{{this.PortalName}}">
                                 <div class="form-group">
                                     <label> Portal Name: </label>
-                                    <input type="text" class="form-control" name="pname" placeholder="Portal Name">
+                                    <input type="text" class="form-control" id="pname" name="pname" placeholder="Portal Name">
                                 </div>
                                 <div class="form-group">
                                     <label> Portal Password: </label>
@@ -76,6 +76,14 @@
         return name1 === name2;
     }
 
+    function clearAllFields(formName, reasonValue) {
+
+        document.forms[formName].elements["pname"].value = "";
+        document.forms[formName].elements["password"].value = "";
+        document.forms[formName].elements["cpassword"].value = "";
+        document.forms[formName].elements["resultOfForm"].value = reasonValue;
+    }
+
     function checkFormFields(getFormInput){
 
         var formName = getFormInput.split("form!=!")[1];
@@ -91,24 +99,28 @@
 
         if (!checkNames){
             console.log("Names entered are not same");
-            document.forms[getFormInput].elements["pname"].value = "";
-            document.forms[getFormInput].elements["password"].value = "";
-            document.forms[getFormInput].elements["cpassword"].value = "";
+//            document.forms[getFormInput].elements["pname"].value = "";
+//            document.forms[getFormInput].elements["password"].value = "";
+//            document.forms[getFormInput].elements["cpassword"].value = "";
+
+            clearAllFields(getFormInput, "Names do not match");
 
             document.getElementById(labelID).removeAttribute("readonly");
-            document.forms[getFormInput].elements["resultOfForm"].value = "Names do not match";
+//            document.forms[getFormInput].elements["resultOfForm"].value = "Names do not match";
             document.getElementById(labelID).setAttribute("readonly", true);
             return false;
         }
 
         if (!checkPasswords){
             console.log("Passwords entered are not same");
-            document.forms[getFormInput].elements["pname"].value = "";
-            document.forms[getFormInput].elements["password"].value = "";
-            document.forms[getFormInput].elements["cpassword"].value = "";
+//            document.forms[getFormInput].elements["pname"].value = "";
+//            document.forms[getFormInput].elements["password"].value = "";
+//            document.forms[getFormInput].elements["cpassword"].value = "";
+
+            clearAllFields(getFormInput, "Passwords entered are not same");
 
             document.getElementById(labelID).removeAttribute("readonly");
-            document.forms[getFormInput].elements["resultOfForm"].value = "Password and Confirm Password do not match";
+//            document.forms[getFormInput].elements["resultOfForm"].value = "";
             document.getElementById(labelID).setAttribute("readonly", true);
             return false;
         }
@@ -157,6 +169,7 @@
                     console.log("Success ends");
                 }).fail(function (error) {
                     console.log("Error begins");
+                    clearAllFields(currentPortalForm[0], "Password does not match with the portal Password! Sorry! Try again!!");
                     console.log(error);
                     console.log("Error ends");
                 })
