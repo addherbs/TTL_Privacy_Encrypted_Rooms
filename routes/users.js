@@ -234,53 +234,35 @@ router.post('/validatePortalJoinData', function (req,res) {
 
     // portalID =  'ObjectId("' + portalID + '")';
 
-    var returnValue = validatePortalOpen(portalID, portalPassword);
+    validatePortalOpen(portalID, portalPassword, function (err, returnValue) {
+        if (err) {
+            console.log(err);
+            res.send(err);
+        }else {
+            console.log("Portal data is returned");
+            console.log(returnValue);
+            var output = {
+                'portalName' : returnValue.PortalName,
+                'portalID': returnValue._id,
+                'owner_id': returnValue.Owner_ID,
+                'TTL': returnValue.TTL,
+                'Message': returnValue.Message
+            };
+            console.log('===============Validate Portal Ends');
+            res.send(output);
+        }
 
-    if (returnValue){
-        console.log("Portal data is returned");
-        var output = {
-            'portalName' : portalName,
-            'portalPassword': portalPassword,
-            'portalID': portalID,
-            'user_id': user_id
-        };
-    }
-
-    // console.log('id: ' + portalID);
-    // console.log('pass: ' + portalPassword);
-    // console.log('name: ' + portalName);
-    // console.log('user_id: ' + user_id);
-
-    console.log('===============Validate Portal Ends');
-    res.send(output);
-
+    });
 });
 
 
-function validatePortalOpen(portalID, portalPassword, done) {
-
+function validatePortalOpen(portalID, portalPassword, callback) {
 
     Portal.getPortals(function(err, portals){
         if (err) throw err;
-        console.log("================================");
-
         portals = portals.filter(function (portal) {
             return ( portal._id ).toString() === (portalID);
         });
-
-    // Portal.getPortalByPortalID(portalID, function (err, portal) {
-    //     if (err){
-    //         console.log("Error came");
-    //         throw err;
-    //     }
-    //     if (!portal) {
-    //         return done(null, false, { message: 'Unknown user' });
-    //     }
-        console.log("================================");
-        console.log(portals);
-        console.log("================================");
-        console.log("portal passworrd: "+ portalPassword);
-        console.log("hash:  "+portals[0].PortalPassword);
         Portal.comparePassword(portalPassword, portals[0].PortalPassword, function (err, isMatch) {
             if (err) {
                 console.log("Exception");
@@ -288,11 +270,11 @@ function validatePortalOpen(portalID, portalPassword, done) {
             }
             if (isMatch) {
                 console.log("Match done!!!");
-                return done ( null, portal );
+                callback(null, portals[0]);
             }
             else {
                 console.log("Wrong match");
-                return done(null, false, { message: 'Invalid password' });
+                callback("Wrong match Passes");
             }
         });
     });

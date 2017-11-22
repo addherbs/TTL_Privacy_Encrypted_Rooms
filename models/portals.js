@@ -50,7 +50,6 @@ module.exports.createPortal= function(newPortal,callback) {
 };
 
 module.exports.getPortals = function (callback) {
-
     //mongoose get all docs. I think here answers your question directly
     Portal.find(function (err, results) {
         if (err) {
@@ -64,15 +63,15 @@ module.exports.getPortals = function (callback) {
 
 module.exports.comparePassword= function(portalPassword,hash, callback){
     bcrypt.compare(portalPassword, hash, function(err, isMatch){
-        console.log("Into the compare passwords");
-        console.log("portal password: "+ portalPassword);
-        console.log("hash:  "+hash);
+        // console.log("Into the compare passwords");
+        // console.log("portal password: "+ portalPassword);
+        // console.log("hash:  "+hash);
         if(err) {
-            console.log("Compare methods with error !!!");
+            // console.log("Compare methods with error !!!");
             console.log(isMatch);
             throw err;
         }
-        console.log("Portal Found 12345");
+        // console.log("Match Happened");
         callback(null, isMatch);
     });
 };
