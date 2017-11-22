@@ -86,3 +86,38 @@ module.exports.getPortalByPortalID= function(portalID,callback){
     console.log("================================");
     db.collection('portals').find(query, callback);
 };
+
+module.exports.updatePortalByID = function(check,data,callback){
+
+    console.log("===============updatePortalByID =================");
+    console.log(check);
+    console.log(data);
+    console.log("================updatePortalByID ================");
+    db.collection("portals").updateOne(check,data, function(err, res) {
+        if (err) {
+            console.log("Error came while updating");
+            callback("Error came while updating");
+
+        }else{
+            console.log("Document Updated");
+            callback(null, res);
+        }
+    });
+};
+
+module.exports.removePortal = function (query, callback) {
+
+    console.log("===============removePortal =================");
+    console.log(query);
+    console.log("===============removePortal =================");
+
+    db.collection("portals").remove(query, function(err, obj) {
+        if (err){
+            console.log("Error while removing the portal");
+            callback("\"Error Report to callback\"");
+            throw err;
+        }
+        console.log(obj.result.n + " document(s) deleted");
+        callback(null, "document deleted");
+    });
+};
