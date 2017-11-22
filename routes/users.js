@@ -283,12 +283,15 @@ router.post('/validatePortalJoinData', function (req,res) {
                     console.log("UpdateCount Error");
                 }if(updatedCount){
                     console.log('Update Count Success');
-
                     checkCountIfZero(returnValue, function (err, returnResult) {
 
+                        if (err){
+                            console.log("++++++++");
+                        }
+                        if(returnResult){
+                            console.log("YO MAN THE PORTAL WAS DELETED");
+                        }
                     });
-
-
                 }
             });
 
@@ -310,31 +313,28 @@ function checkCountIfZero(getResult, callback) {
 
     console.log("Starting the checkCountIfZero");
     console.log(getResult);
-
     if(getResult.Count - 1 === 0 ){
         console.log("Updated Count has reached 0");
-        console.log("We have to delete the portal since the count is reached 0")
+        console.log("We have to delete the portal since the count is reached 0");
 
         var check = {
             PortalName : getResult.PortalName,
             Message : getResult.Message
         };
         Portal.removePortal(check, function (err, returnRes) {
-
             if (err){
                 console.log("Couldn't Delete the file");
+                callback("Couldn't Delete the file, Calling from remove portal");
             }
             if(returnRes){
                 console.log("Portal Deleted yaaaayyyyy");
+                callback(null, "Portal Deleted ");
             }
-
-
-
         });
 
     }else{
         console.log("Updated Count is not 0");
-
+        callback("===Updated Count is not 0====");
     }
     console.log("Ending the checkCountIfZero");
 }
