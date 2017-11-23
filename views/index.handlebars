@@ -65,8 +65,40 @@
             htmlString += "<li>";
             htmlString += "<ul>";
 
-            for (var view = 0; view < portals[i].Viewed.length; view++){
-                htmlString += "<li> Viewer : Username: " + portals[i].Viewed[view].userName + " ==> Email: "+portals[i].Viewed[view].emailID + "</li>";
+            var finalViews = portals[i].Viewed.reduce(function (viewSet, view) {
+                viewSet = viewSet || {};
+                if (viewSet.hasOwnProperty(view.id)){
+                    viewSet[view.id].Count++;
+                }else {
+                    viewSet[view.id] = {
+                        "Count": parseInt(1),
+                        "UserName": view.userName,
+                        "EmailID": view.emailID
+                    };
+                }
+                return viewSet;
+            }, {});
+            console.log("Output of reduce");
+            for (var key in finalViews) {
+                if (finalViews.hasOwnProperty(key)) {
+                    console.log(key + " -> " + finalViews[key].Count, " " +finalViews[key].EmailID,  " ", finalViews[key].UserName);
+                }
+            }
+            console.log("Output of reduce");
+
+            htmlString += "<li> Visited List: </li>";
+            for (key in finalViews) {
+                if (finalViews.hasOwnProperty(key)) {
+                    htmlString += "<li>";
+                    htmlString += "<ul>";
+
+                    htmlString += "<li> Username : " +finalViews[key].UserName +   "</li>";
+                    htmlString += "<li> Email: " +finalViews[key].EmailID+   "</li>";
+                    htmlString += "<li> Number of times Visited: : " +finalViews[key].Count+   "</li>";
+
+                    htmlString += "</ul>";
+                    htmlString += "</li>";
+                }
             }
             htmlString += "</ul>";
             htmlString += "</li>";
