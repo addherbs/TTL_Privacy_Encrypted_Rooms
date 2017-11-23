@@ -83,7 +83,9 @@ router.post('/generatePortalsByID', function (req, res) {
         if (err) throw err;
         for (var key in portals) {
             if (portals.hasOwnProperty(key)) {
-                if (check === portals[key].Owner_ID) {
+                console.log("hey");
+                console.log(portals[key]);
+                if (check === portals[key].Owner_Details.owner_id) {
                     // var currentPortal = portals[key];
                     // console.log(portals[key]);
                     // var temp = {
@@ -133,8 +135,16 @@ router.post('/createPortal', function (req,res) {
     var message = req.body.message;
     var count = req.body.count;
     var owner_id = req.body.owner_id;
+    var owner_username = req.body.owner_username;
+    var owner_email = req.body.owner_email;
 
     var cpPassword = req.body.cpPassword;
+
+    var owner_details = {
+        "owner_id" :owner_id ,
+        "owner_username": owner_username,
+        "owner_email": owner_email
+    };
 
     var ttl = parseInt(hours*3600) + parseInt(minutes*60) + parseInt(secs);
     console.log("ttl: ", ttl);
@@ -150,11 +160,11 @@ router.post('/createPortal', function (req,res) {
     //Validation of form
     req.checkBody('pName', 'Portal Name is required').notEmpty();
     req.checkBody('pPassword', 'Portal Password is required').notEmpty();
-    req.checkBody('hours', 'Hours is required/ Otherwise enter 0').notEmpty();
-    req.checkBody('mins', 'Minutes is required/ Otherwise enter 0').notEmpty();
-    req.checkBody('secs', 'Seconds is required/ Otherwise enter 0').notEmpty();
+    req.checkBody('hours', 'Hours is required/ Otherwise enter 0/ Should be Number').notEmpty().isNumeric();
+    req.checkBody('mins', 'Minutes is required/ Otherwise enter 0/ Should be Number').notEmpty().isNumeric();
+    req.checkBody('secs', 'Seconds is required/ Otherwise enter 0/ Should be Number').notEmpty().isNumeric();
     req.checkBody('message', 'There has to be a message').notEmpty();
-    req.checkBody('count', 'You have to enter open count/ Atleast 1').notEmpty();
+    req.checkBody('count', 'You have to enter open count/ Atleast 1/ Should be Number').notEmpty().isNumeric();
     req.checkBody('cpPassword', 'Confirm Portal Password should match Portal Password').notEmpty().equals(req.body.pPassword);
 
 
@@ -164,7 +174,7 @@ router.post('/createPortal', function (req,res) {
         TTL: ttl,
         Message: message,
         Count: count,
-        Owner_ID: owner_id,
+        Owner_Details: owner_details,
         expireAt: new Date(currentDate)
     };
 
@@ -303,10 +313,19 @@ router.post('/validatePortalJoinData', function (req,res) {
     var obj = JSON.parse(data);
     var keys = Object.keys(obj);
 
+    console.log(obj);
+    console.log(keys);
+    console.log(obj[keys[3]]);
     var portalName = obj[keys[0]];
     var portalPassword = obj[keys[1]];
     var portalID = obj[keys[2]];
-    var user_id = obj[keys[3]];
+    var user_id = {
+        "id": obj[keys[3]],
+        "userName": obj[keys[4]],
+        "emailID": obj[keys[5]]
+    };
+
+    console.log("user details: ", user_id);
 
     // portalID =  'ObjectId("' + portalID + '")';
 
@@ -339,9 +358,10 @@ router.post('/validatePortalJoinData', function (req,res) {
             output = {
                 'portalName' : returnValue.PortalName,
                 'portalID': returnValue._id,
-                'owner_id': returnValue.Owner_ID,
+                'Owner_Details': returnValue.Owner_Details,
                 'TTL': returnValue.TTL,
-                'Message': returnValue.Message
+                'Message': returnValue.Message,
+                'expire_At': returnValue.expireAt
             };
             res.send(output);
         }
@@ -380,12 +400,14 @@ function checkCountIfZero(getResult, callback) {
 
 function updateCount(currentPortal, user_id, callback) {
 
-    console.log(currentPortal);
     var currentPortalCount = currentPortal.Count -1;
-    console.log(currentPortalCount);
 
     var viewed = currentPortal.Viewed;
+    console.log(viewed);
     viewed.push(user_id);
+    console.log("================");
+    console.log(viewed);
+
 
     var check = {
         PortalName : currentPortal.PortalName,
@@ -404,7 +426,7 @@ function updateCount(currentPortal, user_id, callback) {
             callback("Error while updating count: ");
         }
         if (result){
-            console.log("Success while updating count: ", result);
+            console.log("Success while updating count: ");
             callback(null, result);
         }
     });
