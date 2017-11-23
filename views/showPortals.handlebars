@@ -8,26 +8,18 @@
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
 
-    <link rel="stylesheet" href="/css/reveal.css" />
-    <!--<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.min.js"></script>-->
-    <script type="text/javascript" src="/js/jquery.reveal.js"  ></script>
-    <!--<script type="text/javascript" src="/js/jquery-1.4.4.min.js"  ></script>-->
+    <!--<link rel="stylesheet" href="/css/reveal.css" />-->
+    <!--&lt;!&ndash;<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.min.js"></script>&ndash;&gt;-->
+    <!--<script type="text/javascript" src="/js/jquery.reveal.js"  ></script>-->
+    <!--&lt;!&ndash;<script type="text/javascript" src="/js/jquery-1.4.4.min.js"  ></script>&ndash;&gt;-->
 
-    <style type="text/css">
-        body { font-family: "HelveticaNeue","Helvetica-Neue", "Helvetica", "Arial", sans-serif; }
-        .big-link { display:block; margin-top: 100px; text-align: center; font-size: 70px; color: #06f; }
-    </style>
+    <!--<style type="text/css">-->
+        <!--body { font-family: "HelveticaNeue","Helvetica-Neue", "Helvetica", "Arial", sans-serif; }-->
+        <!--.big-link { display:block; margin-top: 100px; text-align: center; font-size: 70px; color: #06f; }-->
+    <!--</style>-->
 
     <div id="content">
 
-        <p>
-        testing
-            {{user._id}}
-            <br>
-            {{user.UserName}}<br>
-            {{user.FirsName}}<br>
-            {{user.EmailID}}
-        </p>
 
         <h2 class="page-header"> List of all the Available Portals </h2>
         <br>
@@ -160,10 +152,9 @@
         var popupClickMe = document.getElementById("popupClickMe");
         var popUpCountdownNotice = document.getElementById("popUpCountdownNotice");
 
-
-        popUpTitle.innerHTML = "Owner Of Message is: "+ data.owner_id;
+        popUpTitle.innerHTML = "Owner Of Message is: "+ data.Owner_Details.owner_username;
         popUpName.innerHTML = "Portal Name is: "+ data.portalName;
-        popUpMessage.innerHTML = "Message for you<br>: "+ data.Message;
+        popUpMessage.innerHTML = "Message for you:<br> "+ data.Message;
         popUpCountdownNotice.innerHTML = "This portal will expire in:";
         popupClickMe.click();
 
@@ -259,7 +250,11 @@
                     'portalName' : currentPortalForm[0].split("form!=!")[1],
                     'portalPassword': returnFrontVerification,
                     'portalID': currentPortalForm[1],
-                    'user_id': "{{user._id}}"
+                    'user_id':{
+                        "id": "{{user._id}}",
+                        'userName': "{{user.UserName}}",
+                        'emailID': "{{user.EmailID}}"
+                    }
                 };
 
                 $.ajax({
