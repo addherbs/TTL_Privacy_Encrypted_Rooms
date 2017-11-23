@@ -24,9 +24,7 @@ var PortalSchema = mongoose.Schema({
     Count: {
         type: Number
     },
-    Owner_ID: {
-        type: String
-    },
+    Owner_Details: {},
     createdAt:  {
         type: Date, default: Date.now
     },
