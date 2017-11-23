@@ -1,17 +1,43 @@
 <div id="site_content">
+
+
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
+
+
+    <link rel="stylesheet" href="/css/popup.css">
+
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
+
+    <link rel="stylesheet" href="/css/reveal.css" />
+    <!--<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.min.js"></script>-->
+    <script type="text/javascript" src="/js/jquery.reveal.js"  ></script>
+    <!--<script type="text/javascript" src="/js/jquery-1.4.4.min.js"  ></script>-->
+
+    <style type="text/css">
+        body { font-family: "HelveticaNeue","Helvetica-Neue", "Helvetica", "Arial", sans-serif; }
+        .big-link { display:block; margin-top: 100px; text-align: center; font-size: 70px; color: #06f; }
+    </style>
+
     <div id="content">
 
+        <p>
+        testing
+            {{user._id}}
+            <br>
+            {{user.UserName}}<br>
+            {{user.FirsName}}<br>
+            {{user.EmailID}}
+        </p>
+
         <h2 class="page-header"> List of all the Available Portals </h2>
+        <br>
+        <br>
         <form method="post" action="/users/refreshPortalList">
-            <button type="submit" class="btn btn-primary btn-lg round" value="Refresh Page">Refresh Page</button>
+            <button type="submit" id="refreshPortalID"  class="btn btn-primary btn-lg round" value="Refresh Page">Refresh Page</button>
         </form>
         <br>
         <br>
-        <p>
-            Testing!! <br>
-            {{user._id}}
-        </p>
+
 
 
         <ul>
@@ -60,13 +86,88 @@
         </ul>
 
         <form method="post" action="/users/refreshPortalList">
-            <button type="submit" class="btn btn-primary btn-lg round" value="Refresh Page">Refresh Page</button>
+            <button type="submit" id="refreshPortalID" class="btn btn-primary btn-lg round" value="Refresh Page">Refresh Page</button>
         </form>
+        <br>
+
+        <!--<form method="post" action="/users/checkUpdate">-->
+        <!--<button type="submit" class="btn btn-primary btn-lg round" value="Update Page">Update Page</button>-->
+        <!--</form>-->
+        <br>
+
+        <div class="popup-wrap">
+            <div class="popup-box">
+                <h2 id="popupTitle"></h2>
+                <br>
+                <h2 id="popupName"></h2>
+                <br>
+                <h3 id="popupMessage"></h3>
+                <br>
+                <h3 id="popUpCountdownNotice">
+                    This portal will expire in:</h3><p id="popupCountDown"></p>
+
+                <a class="close-btn popup-close" id="popupClose" href="#">x</a>
+            </div>
+        </div>
+
+        <a class="btn popup-btn" id="popupClickMe" href="#">Click Me!</a>
+        <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
+        <script  src="/js/popup.js"></script>
+
     </div>
 </div>
 
-
 <script type="text/javascript">
+
+    function updatePopUp(data) {
+
+        console.log("Into the updatePopUp");
+        console.log(data);
+        console.log("Owner ID", data.owner_id);
+        console.log("==========");
+        console.log("Expire At",data.expire_At);
+
+        var x = setInterval(function() {
+            console.log(data.expire_At);
+            var a = new Date(data.expire_At);
+            var b = new Date();
+            console.log("a", a);
+            console.log("b", b);
+            var distance = a-b;
+            // Time calculations for days, hours, minutes and seconds
+            var days = Math.floor(distance / (1000 * 60 * 60 * 24));
+            var hours = Math.floor((distance % (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
+            var minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
+            var seconds = Math.floor((distance % (1000 * 60)) / 1000);
+
+            console.log(distance, " ", days, " ",hours, " ",minutes, " ",seconds);
+
+            // Output the result in an element with id="demo"
+            document.getElementById("popupCountDown").innerHTML = days + "d " + hours + "h "
+                    + minutes + "m " + seconds + "s ";
+
+            // If the count down is over, write some text
+            if (distance < 0) {
+                clearInterval(x);
+                document.getElementById("popupCountDown").innerHTML = "EXPIRED";
+            }
+
+        }, 1000);
+
+        var popUpTitle = document.getElementById("popupTitle");
+        var popUpName = document.getElementById("popupName");
+        var popUpMessage = document.getElementById("popupMessage");
+        var popupClickMe = document.getElementById("popupClickMe");
+        var popUpCountdownNotice = document.getElementById("popUpCountdownNotice");
+
+
+        popUpTitle.innerHTML = "Owner Of Message is: "+ data.owner_id;
+        popUpName.innerHTML = "Portal Name is: "+ data.portalName;
+        popUpMessage.innerHTML = "Message for you<br>: "+ data.Message;
+        popUpCountdownNotice.innerHTML = "This portal will expire in:";
+        popupClickMe.click();
+
+    }
 
     function comparePasswords(pass1, pass2) {
         return pass1 === pass2;
@@ -113,10 +214,6 @@
 
         if (!checkPasswords){
             console.log("Passwords entered are not same");
-//            document.forms[getFormInput].elements["pname"].value = "";
-//            document.forms[getFormInput].elements["password"].value = "";
-//            document.forms[getFormInput].elements["cpassword"].value = "";
-
             clearAllFields(getFormInput, "Passwords entered are not same");
 
             document.getElementById(labelID).removeAttribute("readonly");
@@ -134,6 +231,13 @@
 
     $(document).ready(function () {
         $(".verifyPortalClicked").hide();
+
+        $("#popupClickMe").hide();
+
+        $("#popupClose").on('click', function () {
+            var refButton = document.getElementById("refreshPortalID");
+            refButton.click();
+        });
 
         $(".joinPortalButton").on("click", function () {
             var currentPortal = $(this).attr("value").split("!-@!");
@@ -166,6 +270,7 @@
                 }).done( function (data) {
                     console.log("Success begins");
                     console.log(data);
+                    updatePopUp(data);
                     console.log("Success ends");
                 }).fail(function (error) {
                     console.log("Error begins");
