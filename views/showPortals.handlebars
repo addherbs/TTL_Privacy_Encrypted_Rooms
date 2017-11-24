@@ -113,6 +113,7 @@
 
     function updatePopUp(data) {
 
+        var popupClose = document.getElementById('popupClose');
         console.log("Into the updatePopUp");
         console.log(data);
         console.log("Owner ID", data.owner_id);
@@ -142,6 +143,7 @@
             if (distance < 0) {
                 clearInterval(x);
                 document.getElementById("popupCountDown").innerHTML = "EXPIRED";
+                popupClose.click();
             }
 
         }, 1000);
@@ -151,6 +153,7 @@
         var popUpMessage = document.getElementById("popupMessage");
         var popupClickMe = document.getElementById("popupClickMe");
         var popUpCountdownNotice = document.getElementById("popUpCountdownNotice");
+
 
         popUpTitle.innerHTML = "Owner Of Message is: "+ data.Owner_Details.owner_username;
         popUpName.innerHTML = "Portal Name is: "+ data.portalName;
