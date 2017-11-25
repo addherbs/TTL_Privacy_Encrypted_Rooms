@@ -23,11 +23,6 @@ router.post('/clickedPortal', function (req,res) {
     str = JSON.parse(str);
     console.log(str);
 
-    // console.log("---------------");
-    // var str= JSON.parse(str);
-    // console.log(str);
-    // console.log("---------------");
-
     var portalName = str.PortalName;
     var portalPass = str["PortalPassword"];
     var portalTTL = str.TTL;
@@ -40,7 +35,6 @@ router.post('/clickedPortal', function (req,res) {
     try {
         console.log('mkc bc execute ho');
         res.send(str);
-        // res.redirect('/users/hereYourHaveClicked');
 
     }catch(err){
         console.log(err);
@@ -62,9 +56,6 @@ router.post('/twoButton', function (req,res) {
             if (err) throw err;
             var listOfAllPortals;
             listOfAllPortals = portals;
-            // console.log("Check starts ------------------");
-            // //console.log(listOfAllPortals);
-            // console.log("Check Ends ------------------");
             res.render('showPortals', {portals:listOfAllPortals});
         });
     }
@@ -86,21 +77,12 @@ router.post('/generatePortalsByID', function (req, res) {
                 console.log("hey");
                 console.log(portals[key]);
                 if (check === portals[key].Owner_Details.owner_id) {
-                    // var currentPortal = portals[key];
-                    // console.log(portals[key]);
-                    // var temp = {
-                    //     PortalName: currentPortal.PortalName,
-                    //     TTL: currentPortal.TTL,
-                    //     Message: currentPortal.Message,
-                    //     Count: currentPortal.Count
-                    // };
                     finalPortals.push(portals[key]);
                 }
             }
         }
 
         console.log(finalPortals);
-
         res.send(JSON.stringify(finalPortals));
     });
 });
@@ -188,7 +170,6 @@ router.post('/createPortal', function (req,res) {
 
         Portal.createPortal(newPortal, function(err, portal){
             if (err) throw err;
-            //console.log(portal);
         });
 
         req.flash('success_msg', 'You have successfully created a portal.. Inform your friend to check');
@@ -240,67 +221,6 @@ router.post('/register', function (req,res) {
 
 });
 
-/*
-router.post('/checkDates', function (req,res) {
-
-    var test = new Date();
-    console.log(test);
-    test.setSeconds(test.getSeconds() + 120);
-    console.log(test);
-    var check = {
-        PortalName : "sal",
-        Message : "sal"
-    };
-    var data = {
-        $set :{
-            "expireAt": new Date(test)
-        }
-    };
-
-    Portal.updatePortalByID(check,data, function (err, result) {
-        if (err) {
-            console.log("Error while =======: ", err);
-        }
-        if (result){
-            console.log("Success while =======: ", result);
-        }
-    });
-
-    res.send("yo");
-});
-*/
-/*
-router.post('/checkUpdate', function (req,res) {
-
-    var portalID = "5a11a3885363fa51343cdb8c";
-    var check = {
-        PortalName : "lol",
-        Message : "lol"
-    };
-
-    var data = {
-        $set :{
-            PortalName : "lol1",
-            PortalPassword : "$2a$10$w.IEAt0NO1jSdXNfw5XWx.Fsaee/h9BHfDaz8ov0XX680tb7VYm9a",
-            TTL : 13,
-            Message : "lol",
-            Count : 5,
-            Owner_ID : "59b10cd8b14c7f20d44f9884"
-        }
-    };
-
-    Portal.updatePortalByID(check,data, function (err, result) {
-        if (err) {
-            console.log(err);
-            console.log("updatePortalByID Error");
-        }
-        if (result){
-            console.log(result);
-            console.log("updatePortalByID Updated");
-        }
-    });
-});
-*/
 
 router.post('/validatePortalJoinData', function (req,res) {
 
@@ -326,9 +246,6 @@ router.post('/validatePortalJoinData', function (req,res) {
     };
 
     console.log("user details: ", user_id);
-
-    // portalID =  'ObjectId("' + portalID + '")';
-
     validatePortalOpen(portalID, portalPassword, function (err, returnValue) {
         if (err) {
             console.log(err);
