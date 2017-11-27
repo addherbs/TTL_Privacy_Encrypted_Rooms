@@ -129,10 +129,9 @@ router.post('/createPortal', function (req,res) {
     };
 
     var ttl = parseInt(hours*3600) + parseInt(minutes*60) + parseInt(secs);
-    console.log("ttl: ", ttl);
 
-    console.log("Portal Name:"+ pName + "\nPortal Password:"+pPassword +"\nHours-Mins-Secs: "+ hours +"-" +minutes+ "-"+ secs +
-        "\nMessage:" + message + "\nTotal TTL: "+ ttl + "\t count: " + count);
+    // console.log("Portal Name:"+ pName + "\nPortal Password:"+pPassword +"\nHours-Mins-Secs: "+ hours +"-" +minutes+ "-"+ secs +
+    //     "\nMessage:" + message + "\nTotal TTL: "+ ttl + "\t count: " + count);
 
     var currentDate = new Date();
     console.log("Current Date is: ", currentDate);
@@ -173,7 +172,6 @@ router.post('/createPortal', function (req,res) {
         });
 
         req.flash('success_msg', 'You have successfully created a portal.. Inform your friend to check');
-
         res.redirect('/');
     }
 
@@ -226,9 +224,7 @@ router.post('/validatePortalJoinData', function (req,res) {
 
     console.log('Validate Portal Begins===============');
     var data = JSON.stringify(req.body);
-    var output = {
-
-    };
+    var output = {};
 
     var obj = JSON.parse(data);
     var keys = Object.keys(obj);
@@ -236,7 +232,7 @@ router.post('/validatePortalJoinData', function (req,res) {
     console.log(obj);
     console.log(keys);
     console.log(obj[keys[3]]);
-    var portalName = obj[keys[0]];
+    // var portalName = obj[keys[0]];
     var portalPassword = obj[keys[1]];
     var portalID = obj[keys[2]];
     var user_id = {
@@ -314,7 +310,6 @@ function checkCountIfZero(getResult, callback) {
     console.log("Ending the checkCountIfZero");
 }
 
-
 function updateCount(currentPortal, user_id, callback) {
 
     var currentPortalCount = currentPortal.Count -1;
@@ -324,7 +319,6 @@ function updateCount(currentPortal, user_id, callback) {
     viewed.push(user_id);
     console.log("================");
     console.log(viewed);
-
 
     var check = {
         PortalName : currentPortal.PortalName,
@@ -351,7 +345,6 @@ function updateCount(currentPortal, user_id, callback) {
 }
 
 function validatePortalOpen(portalID, portalPassword, callback) {
-
     Portal.getPortals(function(err, portals){
         if (err) throw err;
         portals = portals.filter(function (portal) {
