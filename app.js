@@ -82,7 +82,7 @@ app.use('/', routes);
 app.use('/users', users);
 
 //Set Port
-app.set('port', (process.env.PORT || 3000));
+app.set('port', (process.env.PORT || 5000));
 
 //Listen to port
 app.listen( app.get('port'), function () {
