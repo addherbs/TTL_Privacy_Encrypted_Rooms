@@ -2,12 +2,10 @@
 
 
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/meyer-reset/2.0/reset.min.css">
-
-
     <link rel="stylesheet" href="/css/popup.css">
+	    <link rel="stylesheet" href="/css/style.css">
 
     <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"></script>
-
     <!--<link rel="stylesheet" href="/css/reveal.css" />-->
     <!--&lt;!&ndash;<script type="text/javascript" src="http://code.jquery.com/jquery-1.6.min.js"></script>&ndash;&gt;-->
     <!--<script type="text/javascript" src="/js/jquery.reveal.js"  ></script>-->
@@ -18,29 +16,22 @@
         <!--.big-link { display:block; margin-top: 100px; text-align: center; font-size: 70px; color: #06f; }-->
     <!--</style>-->
 
-    <div id="content">
+
+        <p class="h7">List of all the Available Portals </p>
+		    <div class="beautylist">
+
+<br>
 
 
-        <h2 class="page-header"> List of all the Available Portals </h2>
-        <br>
-        <br>
-        <form method="post" action="/users/refreshPortalList">
-            <button type="submit" id="refreshPortalID"  class="btn btn-primary btn-lg round" value="Refresh Page">Refresh Page</button>
-        </form>
-        <br>
-        <br>
-
-
-
-        <ul>
-            <ul>
+		    <div class="beautylist">
+        
+            <ul class="hellist" id="hellist">
                 {{#each portals}}
                     <li>
                         <!--Portal Name: <button id="testing" name="testing" value="{{this}}" href="#">  {{this.PortalName}} </button>-->
-                        Portal Name: &ensp;
-                        <button class="joinPortalButton btn btn-primary btn-sm round" name="testing"
+                        <a class="joinPortalButton "
                                 value="{{this._id}}!-@!{{this.PortalName}}!-@!{{this.PortalPassword}}!-@!{{this.TTL}}!-@!{{this.Message}}!-@!{{this.Count}}"
-                                href="#">    {{this.PortalName}} </button>
+                                href="#">    {{this.PortalName}} </a>
 
                         <div id="joinPortalButton{{this._id}}" class="verifyPortalClicked">
                             <form id="eachPortalInputData" name="form!=!{{this.PortalName}}">
@@ -64,21 +55,22 @@
                                     <label> <b> <u> Result: </u> </b> </label>
                                     <input type="text" class="form-control" id="#formLabel!=!{{this.PortalName}}" name="resultOfForm"
                                            placeholder="Enter the Fields Above" readonly>
-                                </div>
 
                                 <p class="form-group" id="resultOfSubmit"> </p>
-
-                                <button type="button" class="eachPortalButton btn btn-primary btn-lg round"  value="form!=!{{this.PortalName}}!$&$&$!{{this._id}}" style="float: right;"> Submit
+                                <button type="button" class="eachPortalButton button3 small"  value="form!=!{{this.PortalName}}!$&$&$!{{this._id}}" style="float: right;"> Show me!
                                 </button>
+								                                </div>
+<br>
                             </form>
                         </div>
                     </li>
                 {{/each}}
             </ul>
-        </ul>
+        
+                        </div>
 
         <form method="post" action="/users/refreshPortalList">
-            <button type="submit" id="refreshPortalID" class="btn btn-primary btn-lg round" value="Refresh Page">Refresh Page</button>
+            <button type="submit" id="refreshPortalID" class="button3" value="Refresh Page">Refresh Page</button>
         </form>
         <br>
 
@@ -102,7 +94,7 @@
             </div>
         </div>
 
-        <a class="btn popup-btn" id="popupClickMe" href="#">Click Me!</a>
+        <a class="button3 small popup-btn" id="popupClickMe" href="#">Click Me!</a>
         <script src='http://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js'></script>
         <script  src="/js/popup.js"></script>
 
@@ -155,9 +147,9 @@
         var popUpCountdownNotice = document.getElementById("popUpCountdownNotice");
 
 
-        popUpTitle.innerHTML = "Owner Of Message is: "+ data.Owner_Details.owner_username;
-        popUpName.innerHTML = "Portal Name is: "+ data.portalName;
-        popUpMessage.innerHTML = "Message for you:<br> "+ data.Message;
+        popUpTitle.innerHTML = "Portal Created by: "+ data.Owner_Details.owner_username;
+        popUpName.innerHTML = "Portal Name: "+ data.portalName;
+        popUpMessage.innerHTML = "Message: <br>"+ data.Message;
         popUpCountdownNotice.innerHTML = "This portal will expire in:";
         popupClickMe.click();
 
