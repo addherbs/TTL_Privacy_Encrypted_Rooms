@@ -1764,6 +1764,114 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
   }
 }
 
+.button3{
+  display: inline-block;
+  *display: inline;
+  zoom: 1;
+  padding: 6px 20px;
+  margin: 0;
+  cursor: pointer;
+  border: 1px solid #bbb;
+  overflow: visible;
+  font: bold 13px arial, helvetica, sans-serif;
+  text-decoration: none;
+  white-space: nowrap;
+  color: #555;
+  background-color: #ddd;
+  background-image: linear-gradient(top, rgba(255,255,255,1),
+                                         rgba(255,255,255,0)),
+                    url(data:image/png;base64,iVBORw0KGg[...]QmCC); 
+  transition: background-color .2s ease-out;
+  background-clip: padding-box; /* Fix bleeding */
+  border-radius: 3px;
+  box-shadow: 0 1px 0 rgba(0, 0, 0, .3),
+              0 2px 2px -1px rgba(0, 0, 0, .5),
+              0 1px 0 rgba(255, 255, 255, .3) inset;
+  text-shadow: 0 1px 0 rgba(255,255,255, .9);  
+}
+
+.button3:hover{
+  background-color: #eee;
+  color: #555;
+}
+
+.button3:active{
+  background: #e9e9e9;
+  position: relative;
+  top: 1px;
+  text-shadow: none;
+  box-shadow: 0 1px 1px rgba(0, 0, 0, .3) inset;
+}
+
+/* Smaller buttons styles */
+.button3.small{
+  padding: 4px 12px;
+}
+
+/* Larger button3s styles */
+.button3.large{
+  padding: 12px 30px;
+  text-transform: uppercase;
+}
+
+.button3.large:active{
+  top: 2px;
+}
+
+.button3.color{
+  color: #fff;
+  text-shadow: 0 1px 0 rgba(0,0,0,.2);
+  background-image: linear-gradient(top, rgba(255,255,255,.3), 
+             rgba(255,255,255,0)),
+                    url(data:image/png;base64,iVBORw0KGg[...]QmCC);
+}
+
+/* */
+
+.button3.green{
+  background-color: #57a957;
+  border-color: #57a957;
+}
+
+.button3.green:hover{
+  background-color: #62c462;
+}
+
+.button3.green:active{
+  background: #57a957;
+}
+
+/* */
+
+.button3.red{
+  background-color: #c43c35;
+  border-color: #c43c35;
+}
+
+.button3.red:hover{
+  background-color: #ee5f5b;
+}
+
+.button3.red:active{
+  background: #c43c35;
+}
+
+/* */
+
+.button3.blue{
+  background-color: #269CE9;
+  border-color: #269CE9;
+}
+
+.button3.blue:hover{
+  background-color: #70B9E8;
+}
+
+.button3.blue:active{
+  background: #269CE9;
+}
+
+
 .btn {
   display: inline-block;
   padding: 6px 12px;
@@ -1823,7 +1931,7 @@ select.form-control-lg:not([size]):not([multiple]), .input-group-lg > select.for
     border: 0 none;
     font-weight: 700;
     letter-spacing: 1px;
-    text-transform: uppercase;
+
 }
 .btn:focus, .btn:active:focus, .btn.active:focus {
     outline: 0 none;
@@ -2350,9 +2458,20 @@ fieldset[disabled] a.btn {
   border-radius: 0.3rem;
 }
 
+.btn-primary.raised:active, .btn-primary.raised.active {
+	background: #33a6cc;
+	box-shadow: none;
+	margin-bottom: -3px;
+	margin-top: 3px;
+}
+
+.btn-primary.raised {
+	box-shadow: 0 3px 0 0 #007299;
+}
+
 .btn-sm, .btn-group-sm > .btn {
   padding: 0.25rem 0.5rem;
-  font-size: 0.875rem;
+  font-size: 0.975rem;
   line-height: 1.5;
   border-radius: 0.2rem;
 }
@@ -7753,14 +7872,6 @@ a.bg-dark:focus, a.bg-dark:hover {
 
 .text-lowercase {
   text-transform: lowercase !important;
-}
-
-.text-uppercase {
-  text-transform: uppercase !important;
-}
-
-.text-capitalize {
-  text-transform: capitalize !important;
 }
 
 .font-weight-normal {
